@@ -1,18 +1,13 @@
 #include <Arduino.h>
+#include "system/scheduler.h"
 
-// put function declarations here:
-int myFunction(int, int);
+Scheduler sched;
+
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+// Initialize tasks and add to the scheduler.
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+    sched.schedule();
 }
