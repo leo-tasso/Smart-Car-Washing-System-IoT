@@ -2,27 +2,23 @@
 #define __CHECKINPRESENCEDETECTION__
 
 #include "CarWasher.h"
-#include "system/task.h"
+#include "actuators/Led.h"
 #include "sensors/Pir.h"
-#include "actuators/Led.h" 
+#include "system/task.h"
 
-class CheckInPresenceDetector: public Task {
-  PresenceDetector * detector;
-  Light * l1; 
-  CarWasher * carWasher;
+class CheckInPresenceDetector : public Task {
+   private:
+    PresenceDetector *detector;
+    Light *l1;
+    CarWasher *carWasher;
+    enum {
+        DETECTED,
+        UNDETECTED
+    } state{UNDETECTED};
 
-
-public:
-  CheckInPresenceDetector(int period, CarWasher *CarWasher, int pinPir, int pinL1);
-  void tick() override;
-
-private:
-  enum
-  {
-    DETECTED,
-    UNDETECTED
-  } state{UNDETECTED};
+   public:
+    CheckInPresenceDetector(int period, CarWasher *CarWasher, int pinPir, int pinL1);
+    void tick() override;
 };
-
 
 #endif
