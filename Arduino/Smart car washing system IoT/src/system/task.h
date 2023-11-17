@@ -2,10 +2,7 @@
 #define __TASK__
 
 class Task {
-  Task(int period){
-    myPeriod = period;
-    timeElapsed = 0;
-  }
+
 public:
   virtual void tick() = 0;
 
@@ -18,7 +15,14 @@ public:
       return false; 
     }
   }
-  
+
+protected:
+
+    Task(int period){
+    myPeriod = period;
+    timeElapsed = 0;
+  }
+
 private:
 
   int myPeriod;
