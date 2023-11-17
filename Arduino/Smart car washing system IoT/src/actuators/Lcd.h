@@ -11,8 +11,8 @@ LiquidCrystal_I2C * lcd;
 
 public:
     Lcd(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows);
-    void clear();
-    void show(String msg);
+    void clear() override;
+    void show(String msg) override;
 };
 
 
