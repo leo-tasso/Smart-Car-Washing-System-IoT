@@ -1,0 +1,60 @@
+//
+// !!! WARNING !!! AUTO-GENERATED FILE!
+// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
+// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+//
+{
+    "configurations": [
+        {
+            "name": "PlatformIO",
+            "includePath": [
+                "C:/Users/Leonardo/Documents/LocalRepos/Smart-Car-Washing-System-IoT/Arduino/Smart car washing system IoT/include",
+                "C:/Users/Leonardo/Documents/LocalRepos/Smart-Car-Washing-System-IoT/Arduino/Smart car washing system IoT/src",
+                "C:/Users/Leonardo/Documents/LocalRepos/Smart-Car-Washing-System-IoT/Arduino/Smart car washing system IoT/.pio/libdeps/uno/LiquidCrystal_I2C",
+                "C:/Users/Leonardo/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                "C:/Users/Leonardo/Documents/LocalRepos/Smart-Car-Washing-System-IoT/Arduino/Smart car washing system IoT/.pio/libdeps/uno/TimerOne",
+                "C:/Users/Leonardo/.platformio/packages/framework-arduino-avr/cores/arduino",
+                "C:/Users/Leonardo/.platformio/packages/framework-arduino-avr/variants/standard",
+                "C:/Users/Leonardo/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                "C:/Users/Leonardo/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                "C:/Users/Leonardo/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                "C:/Users/Leonardo/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                ""
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "C:/Users/Leonardo/Documents/LocalRepos/Smart-Car-Washing-System-IoT/Arduino/Smart car washing system IoT/include",
+                    "C:/Users/Leonardo/Documents/LocalRepos/Smart-Car-Washing-System-IoT/Arduino/Smart car washing system IoT/src",
+                    "C:/Users/Leonardo/Documents/LocalRepos/Smart-Car-Washing-System-IoT/Arduino/Smart car washing system IoT/.pio/libdeps/uno/LiquidCrystal_I2C",
+                    "C:/Users/Leonardo/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    "C:/Users/Leonardo/Documents/LocalRepos/Smart-Car-Washing-System-IoT/Arduino/Smart car washing system IoT/.pio/libdeps/uno/TimerOne",
+                    "C:/Users/Leonardo/.platformio/packages/framework-arduino-avr/cores/arduino",
+                    "C:/Users/Leonardo/.platformio/packages/framework-arduino-avr/variants/standard",
+                    "C:/Users/Leonardo/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                    "C:/Users/Leonardo/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                    "C:/Users/Leonardo/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                    "C:/Users/Leonardo/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                    ""
+                ]
+            },
+            "defines": [
+                "PLATFORMIO=60111",
+                "ARDUINO_AVR_UNO",
+                "F_CPU=16000000L",
+                "ARDUINO_ARCH_AVR",
+                "ARDUINO=10808",
+                "__AVR_ATmega328P__",
+                ""
+            ],
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++11",
+            "compilerPath": "C:/Users/Leonardo/.platformio/packages/toolchain-atmelavr/bin/avr-gcc.exe",
+            "compilerArgs": [
+                "-mmcu=atmega328p",
+                ""
+            ]
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,19 @@
+{
+    "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
+        "cppcoreguidelines-virtual-class-destructor",
+        "cppcoreguidelines-avoid-c-arrays",
+        "cppcoreguidelines-avoid-magic-numbers",
+        "cppcoreguidelines-pro-bounds-constant-array-index",
+        "cppcoreguidelines-avoid-non-const-global-variables",
+        "cppcoreguidelines-owning-memory"
+    ],
+    "C_Cpp.codeAnalysis.clangTidy.args": [
+        "--extra-arg=-ferror-limit=1",
+        "--header-filter='^src(?:\/[^\/]+)*$'",
+    ],
+    "C_Cpp.codeAnalysis.clangTidy.checks.enabled": [
+        "cppcoreguidelines-*"
+    ],
+    "C_Cpp.codeAnalysis.clangTidy.enabled": true,
+    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 0}"
+}
