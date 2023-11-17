@@ -7,12 +7,11 @@ class Pir: public PresenceDetector {
  
 public: 
   Pir(int pin);
-  bool isDetected();
+  bool isDetected() override;
 
 private:
   int pin;
-  bool detected;
-  
+  bool detected{false};
 };
 
 #endif

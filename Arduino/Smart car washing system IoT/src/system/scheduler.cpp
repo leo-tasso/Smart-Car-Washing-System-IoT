@@ -1,4 +1,4 @@
-#include "Scheduler.h"
+#include "scheduler.h"
 #include <TimerOne.h>
 
 volatile bool timerFlag;
@@ -7,13 +7,12 @@ void timerHandler(void){
   timerFlag = true;
 }
 
-void Scheduler::init(int basePeriod){
-  this->basePeriod = basePeriod;
+Scheduler::Scheduler(int basePeriod) : basePeriod(basePeriod)
+{
   timerFlag = false;
   long period = 1000l*basePeriod;
   Timer1.initialize(period);
   Timer1.attachInterrupt(timerHandler);
-  nTasks = 0;
 }
 
 bool Scheduler::addTask(Task* task){

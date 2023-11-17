@@ -7,13 +7,13 @@ class Led : public Light
 {
 public:
     Led(int pin);
-    void turnOn();
-    void turnOff();
-    bool isOn();
+    void turnOn() override;
+    void turnOff() override;
+    bool isOn() override;
 
-protected:
+private:
     int pin;
-    bool status;
+    bool status{false};
 };
 
 #endif

@@ -2,10 +2,8 @@
 
 #include "Arduino.h"
 
-Led::Led(int pin)
+Led::Led(int pin) : pin(pin)
 {
-    this->pin = pin;
-    this->status = false;
     pinMode(pin, OUTPUT);
     digitalWrite(pin, LOW);
 }

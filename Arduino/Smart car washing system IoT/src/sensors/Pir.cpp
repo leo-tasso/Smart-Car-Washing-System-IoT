@@ -1,9 +1,9 @@
 #include "Pir.h"
 #include "Arduino.h"
 
-Pir::Pir(int pin){
-  this->pin = pin;
-  pinMode(pin, INPUT);     
+Pir::Pir(int pin) : pin(pin)
+{
+  pinMode(pin, INPUT);
 }
 
 bool Pir::isDetected(){

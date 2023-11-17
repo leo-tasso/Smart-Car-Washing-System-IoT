@@ -17,17 +17,14 @@ public:
   }
 
 protected:
-
-    Task(int period){
-    myPeriod = period;
-    timeElapsed = 0;
+  Task(int period) : myPeriod(period)
+  {
   }
 
 private:
 
   int myPeriod;
-  int timeElapsed;
-
+  int timeElapsed{0};
 };
 
 #endif
