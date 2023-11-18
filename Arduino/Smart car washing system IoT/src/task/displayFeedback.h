@@ -9,8 +9,14 @@ class DisplayFeedback : public Task {
    private:
     CarWasher *carWasher;
     Display *lcd;
+    scenario prevScenario{SLEEP};
+
    public:
-    DisplayFeedback(int period, CarWasher *CarWasher, uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows);
+    DisplayFeedback(int period,
+                    CarWasher *CarWasher,
+                    uint8_t lcd_Addr,
+                    uint8_t lcd_cols,
+                    uint8_t lcd_rows);
     void tick() override;
 };
 #endif
