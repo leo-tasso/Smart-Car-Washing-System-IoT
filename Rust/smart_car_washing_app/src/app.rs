@@ -1,6 +1,7 @@
 use std::io::Write;
 use eframe::epaint::Color32;
 use egui_gauge::Gauge;
+use communicator::Communicator;
 
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
 #[derive(serde::Deserialize, serde::Serialize)]
@@ -13,6 +14,8 @@ pub struct SmartCarWashingApp {
     #[serde(skip)] // This how you opt-out of serialization of a field
     temp: f32,
     selected_port: usize,
+    #[serde(skip)] // This how you opt-out of serialization of a field
+    communicator: Communicator,
 
 }
 
@@ -23,13 +26,14 @@ impl Default for SmartCarWashingApp {
             label: "Hello World!".to_owned(),
             temp: 2.7,
             selected_port: 1,
+            communicator: Default::default(),
         }
     }
 }
 
 impl SmartCarWashingApp {
     /// Called once before the first frame.
-    pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
+    pub fn new(cc: &eframe::CreationContext<'_>, communicator: Communicator) -> Self {
         // This is also where you can customize the look and feel of egui using
         // `cc.egui_ctx.set_visuals` and `cc.egui_ctx.set_fonts`.
 
@@ -38,9 +42,9 @@ impl SmartCarWashingApp {
         if let Some(storage) = cc.storage {
             return eframe::get_value(storage, eframe::APP_KEY).unwrap_or_default();
         }
-
-        Default::default()
+        Self { label: "".to_string(), temp: 0.0, selected_port: 0, communicator }
     }
+
 }
 
 impl eframe::App for SmartCarWashingApp {

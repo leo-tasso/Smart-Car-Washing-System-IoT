@@ -4,8 +4,11 @@ extern crate egui_gauge;
 extern crate eframe;
 extern crate serialport;
 
+use communicator::Communicator;
 use crate::app::SmartCarWashingApp;
 mod app;
+mod communicator;
+
 fn main() -> eframe::Result<()> {
     env_logger::init(); // Log to stderr (if you run with `RUST_LOG=debug`).
 
@@ -21,9 +24,11 @@ fn main() -> eframe::Result<()> {
         println!("{}", p.port_name);
     }
 
+    let communicator = Communicator::new();
+
     eframe::run_native(
         "eframe template",
         native_options,
-        Box::new(|cc| Box::new(SmartCarWashingApp::new(cc))),
+        Box::new(|cc| Box::new(SmartCarWashingApp::new(cc, communicator))),
     )
 }
