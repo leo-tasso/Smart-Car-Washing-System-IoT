@@ -1,3 +1,6 @@
+use eframe::epaint::Color32;
+use egui_gauge::Gauge;
+
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
 #[derive(serde::Deserialize, serde::Serialize)]
 #[serde(default)] // if we add new fields, give them default values when deserializing old state
@@ -7,7 +10,9 @@ pub struct SmartCarWashingApp {
     label: String,
 
     #[serde(skip)] // This how you opt-out of serialization of a field
-    value: f32,
+    temp: f32,
+    selected_port: usize,
+
 }
 
 impl Default for SmartCarWashingApp {
@@ -15,7 +20,8 @@ impl Default for SmartCarWashingApp {
         Self {
             // Example stuff:
             label: "Hello World!".to_owned(),
-            value: 2.7,
+            temp: 2.7,
+            selected_port: 1,
         }
     }
 }
@@ -59,32 +65,48 @@ impl eframe::App for SmartCarWashingApp {
             });
         });
 
-        egui::CentralPanel::default().show(ctx, |ui| {
-            // The central panel the region left after adding TopPanel's and SidePanel's
-            ui.heading("eframe template");
+        egui::CentralPanel::default().show(
+            ctx,
+            |ui| {
+                // The central panel the region left after adding TopPanel's and SidePanel's
+                ui.heading("eframe template");
 
-            ui.horizontal(|ui| {
-                ui.label("Write something: ");
-                ui.text_edit_singleline(&mut self.label);
-            });
+                ui.horizontal(|ui| {
+                    ui.label("Write something: ");
+                    ui.text_edit_singleline(&mut self.label);
+                });
+                let mut alternatives:Vec<String> = match serialport::available_ports()  {
+                    Ok(mut v) => v.iter_mut().map(|p|p.port_name.clone()).collect(),
+                    _ => vec!["No port Found".to_string()],
+                };
+                if alternatives.is_empty() {
+                    alternatives.append(&mut vec!["No port found".to_string()]);
+                }
 
-            ui.add(egui::Slider::new(&mut self.value, 0.0..=10.0).text("value"));
-            if ui.button("Increment").clicked() {
-                self.value += 1.0;
-            }
+                egui::ComboBox::from_label("Select serial port").show_index(
+                    ui,
+                    &mut self.selected_port,
+                    alternatives.len(),
+                    |i| alternatives[i].clone()
+                );
+                ui.add(egui::Slider::new(&mut self.temp, 0.0..=10.0).text("value"));
+                if ui.button("Increment").clicked() {
+                    self.temp += 1.0;
+                }
+                ui.add(Gauge::new(self.temp, 0.0..=37.0, 200.0, Color32::RED).text("hello"));
+                ui.separator();
 
-            ui.separator();
-
-            ui.add(egui::github_link_file!(
+                ui.add(egui::github_link_file!(
                 "https://github.com/emilk/eframe_template/blob/master/",
                 "Source code."
             ));
 
-            ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
-                powered_by_egui_and_eframe(ui);
-                egui::warn_if_debug_build(ui);
-            });
-        });
+                ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
+                    powered_by_egui_and_eframe(ui);
+                    egui::warn_if_debug_build(ui);
+                });
+            }
+        );
     }
 
     /// Called by the frame work to save state before shutdown.
