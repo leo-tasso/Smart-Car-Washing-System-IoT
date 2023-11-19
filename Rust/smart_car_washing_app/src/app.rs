@@ -75,9 +75,11 @@ impl eframe::App for SmartCarWashingApp {
                     ui.label("Write something: ");
                     ui.text_edit_singleline(&mut self.label);
                 });
+
                 let mut alternatives:Vec<String> = match serialport::available_ports()  {
                     Ok(mut v) => v.iter_mut().map(|p|p.port_name.clone()).collect(),
-                    _ => vec!["No port Found".to_string()],
+                    _ => {
+                        vec!["No port Found".to_string()]},
                 };
                 if alternatives.is_empty() {
                     alternatives.append(&mut vec!["No port found".to_string()]);
@@ -89,10 +91,11 @@ impl eframe::App for SmartCarWashingApp {
                     alternatives.len(),
                     |i| alternatives[i].clone()
                 );
-                ui.add(egui::Slider::new(&mut self.temp, 0.0..=10.0).text("value"));
-                if ui.button("Increment").clicked() {
+                if (!serialport::available_ports().expect("Serial port error").is_empty()) && ui.button("Connect").clicked() {
                     self.temp += 1.0;
                 }
+                ui.add(egui::Slider::new(&mut self.temp, 0.0..=10.0).text("value"));
+
                 ui.add(Gauge::new(self.temp, 0.0..=37.0, 200.0, Color32::RED).text("hello"));
                 ui.separator();
 
