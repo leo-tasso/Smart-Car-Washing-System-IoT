@@ -1,3 +1,4 @@
+use std::io::Write;
 use eframe::epaint::Color32;
 use egui_gauge::Gauge;
 
@@ -92,7 +93,8 @@ impl eframe::App for SmartCarWashingApp {
                     |i| alternatives[i].clone()
                 );
                 if (!serialport::available_ports().expect("Serial port error").is_empty()) && ui.button("Connect").clicked() {
-                    self.temp += 1.0;
+                    let mut connected_port = serialport::new(alternatives[self.selected_port].clone(), 9600).open().expect("Failed to open port");
+                    connected_port.write_all("r250100".as_bytes()).expect("Unable to Write");
                 }
                 ui.add(egui::Slider::new(&mut self.temp, 0.0..=10.0).text("value"));
 
