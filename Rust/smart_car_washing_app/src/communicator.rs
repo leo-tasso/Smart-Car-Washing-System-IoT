@@ -1,23 +1,22 @@
 use serialport::SerialPort;
+use std::time::Duration;
+use std::{io, thread};
+
 
 pub struct Communicator {
     temp: f32,
-    connected: bool,
     maintenance_req: bool,
     active_scenario: String,
     connected_port: Option<Box<dyn SerialPort>>,
-    selected_port: Option<String>,
 }
 
 impl Default for Communicator {
     fn default() -> Self {
         Self {
             temp: 0.0,
-            connected: false,
             maintenance_req: false,
             active_scenario: "".to_string(),
             connected_port: None,
-            selected_port: None,
         }
     }
 }
@@ -30,7 +29,7 @@ impl Communicator {
         self.temp
     }
     pub fn connected(&self) -> bool {
-        self.connected
+        self.connected_port.is_some()
     }
     pub fn maintenance_req(&self) -> bool {
         self.maintenance_req
@@ -42,9 +41,41 @@ impl Communicator {
         &self.connected_port
     }
 
-    pub fn set_selected_port(&mut self, selected_port: Option<String>) {
-        self.selected_port = selected_port;
+    pub fn connect(&mut self,path: String){
+        self.connected_port = Some(serialport::new( path, 9600).open().expect("Failed to open port"));
+
+        let mut clone = self.connected_port.as_mut()
+        .unwrap()
+        .try_clone().expect("Failed to clone");
+        let running = self.connected_port.is_some();
+
+        thread::spawn(move || loop {
+            while running {
+            clone
+                .write_all(&[5, 6, 7, 8])
+                .expect("Failed to write to serial port");
+            thread::sleep(Duration::from_millis(1000));
+            }
+        });
+        let mut buffer: [u8; 1] = [0; 1];
+        let mut clone = self.connected_port.as_mut()
+        .unwrap()
+        .try_clone().expect("Failed to clone");
+        thread::spawn(move ||loop {
+            match clone.read(&mut buffer) {
+                Ok(bytes) => {
+                    if bytes == 1 {
+                        println!("Received: {:?}", buffer);
+                    }
+                }
+                Err(ref e) if e.kind() == io::ErrorKind::TimedOut => (),
+                Err(e) => eprintln!("{:?}", e),
+            }
+        });
     }
-    pub fn connect(&mut self){
+    pub fn stop(&mut self){
+        if self.connected_port.is_some() {
+            self.connected_port = None;
+        }
     }
 }
