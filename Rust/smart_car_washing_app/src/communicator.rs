@@ -37,9 +37,6 @@ impl Communicator {
     pub fn active_scenario(&self) -> &str {
         self.active_scenario.as_str()
     }
-    pub fn connected_port(&self) -> &Option<Box<dyn SerialPort>> {
-        &self.connected_port
-    }
 
     pub fn connect(&mut self,path: String){
         self.connected_port = Some(serialport::new( path, 9600).open().expect("Failed to open port"));
@@ -77,5 +74,9 @@ impl Communicator {
         if self.connected_port.is_some() {
             self.connected_port = None;
         }
+    }
+
+    pub fn maintenance_done(&mut self){
+        self.maintenance_req = false;
     }
 }

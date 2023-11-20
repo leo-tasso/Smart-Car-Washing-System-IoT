@@ -97,21 +97,29 @@ impl eframe::App for SmartCarWashingApp {
                 alternatives.len(),
                 |i| alternatives[i].clone(),
             );
-            if (!serialport::available_ports()
-                .expect("Serial port error")
-                .is_empty())
-                && ui.button("Connect").clicked()
+            if ui
+                .add_enabled(!self.communicator.connected() && serialport::available_ports().is_ok_and(|r| !r.is_empty()), egui::Button::new("Connect"))
+                .clicked()
             {
                 self.communicator
                     .connect(alternatives[self.selected_port].clone());
             }
-            if ui.button("Disconnect").clicked() {
-                self.communicator.stop();
-            }
+
+            if ui
+                .add_enabled(self.communicator.connected(), egui::Button::new("Disconnect"))
+                .clicked()
+            {
+                self.communicator.stop()
+            };
+            if ui
+            .add_enabled(self.communicator.connected() && self.communicator.maintenance_req(), egui::Button::new("Maintainance done"))
+            .clicked()
+        {
+            self.communicator.maintenance_done();
+        };
             ui.heading("Active: ".to_owned() + self.communicator.active_scenario());
             ui.add(egui::Slider::new(&mut self.temp, 0.0..=10.0).text("value"));
-
-            ui.add(Gauge::new(self.temp, 0.0..=37.0, 200.0, Color32::RED).text("hello"));
+            ui.add(Gauge::new(self.communicator.temp(), 0.0..=37.0, 200.0, Color32::GREEN).text("Sys Temp"));
             ui.separator();
 
             ui.add(egui::github_link_file!(
