@@ -1,7 +1,7 @@
 use serialport::SerialPort;
 use std::time::Duration;
 use std::{io, thread};
-
+use std::io::{Read, Write};
 
 pub struct Communicator {
     temp: f32,
@@ -49,22 +49,17 @@ impl Communicator {
         thread::spawn(move || loop {
             if !running {break;}
             clone
-                .write_all(&[5, 6, 7, 8])
+                .write_all("Hello world".as_bytes())
                 .expect("Failed to write to serial port");
             thread::sleep(Duration::from_millis(1000));
         });
-        let mut buffer: [u8; 1] = [0; 1];
         let mut clone = self.connected_port.as_mut()
         .unwrap()
         .try_clone().expect("Failed to clone");
-        thread::spawn(move ||loop {
-            if !running {break;}
-            match clone.read(&mut buffer) {
-                Ok(bytes) => {
-                    if bytes == 1 {
-                        println!("Received: {:?}", buffer);
-                    }
-                }
+        let mut serial_buf: Vec<u8> = vec![0; 1000];
+        thread::spawn(move ||            loop {
+            match clone.read(serial_buf.as_mut_slice()) {
+                Ok(t) => io::stdout().write_all(&serial_buf[..t]).unwrap(),
                 Err(ref e) if e.kind() == io::ErrorKind::TimedOut => (),
                 Err(e) => eprintln!("{:?}", e),
             }
