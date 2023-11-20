@@ -1,6 +1,6 @@
+use communicator::Communicator;
 use eframe::epaint::Color32;
 use egui_gauge::Gauge;
-use communicator::Communicator;
 
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
 #[derive(serde::Deserialize, serde::Serialize)]
@@ -15,7 +15,6 @@ pub struct SmartCarWashingApp {
     selected_port: usize,
     #[serde(skip)] // This how you opt-out of serialization of a field
     communicator: Communicator,
-
 }
 
 impl Default for SmartCarWashingApp {
@@ -41,9 +40,13 @@ impl SmartCarWashingApp {
         if let Some(storage) = cc.storage {
             return eframe::get_value(storage, eframe::APP_KEY).unwrap_or_default();
         }
-        Self { label: "".to_string(), temp: 0.0, selected_port: 0, communicator }
+        Self {
+            label: "".to_string(),
+            temp: 0.0,
+            selected_port: 0,
+            communicator,
+        }
     }
-
 }
 
 impl eframe::App for SmartCarWashingApp {
@@ -69,51 +72,58 @@ impl eframe::App for SmartCarWashingApp {
             });
         });
 
-        egui::CentralPanel::default().show(
-            ctx,
-            |ui| {
-                // The central panel the region left after adding TopPanel's and SidePanel's
-                ui.heading("eframe template");
+        egui::CentralPanel::default().show(ctx, |ui| {
+            // The central panel the region left after adding TopPanel's and SidePanel's
+            ui.heading("eframe template");
 
-                ui.horizontal(|ui| {
-                    ui.label("Write something: ");
-                    ui.text_edit_singleline(&mut self.label);
-                });
+            ui.horizontal(|ui| {
+                ui.label("Write something: ");
+                ui.text_edit_singleline(&mut self.label);
+            });
 
-                let mut alternatives:Vec<String> = match serialport::available_ports()  {
-                    Ok(mut v) => v.iter_mut().map(|p|p.port_name.clone()).collect(),
-                    _ => {
-                        vec!["No port Found".to_string()]},
-                };
-                if alternatives.is_empty() {
-                    alternatives.append(&mut vec!["No port found".to_string()]);
+            let mut alternatives: Vec<String> = match serialport::available_ports() {
+                Ok(mut v) => v.iter_mut().map(|p| p.port_name.clone()).collect(),
+                _ => {
+                    vec!["No port Found".to_string()]
                 }
+            };
+            if alternatives.is_empty() {
+                alternatives.append(&mut vec!["No port found".to_string()]);
+            }
 
-                egui::ComboBox::from_label("Select serial port").show_index(
-                    ui,
-                    &mut self.selected_port,
-                    alternatives.len(),
-                    |i| alternatives[i].clone()
-                );
-                if (!serialport::available_ports().expect("Serial port error").is_empty()) && ui.button("Connect").clicked() {
-                   self.communicator.connect( alternatives[self.selected_port].clone());
-                }
-                ui.add(egui::Slider::new(&mut self.temp, 0.0..=10.0).text("value"));
+            egui::ComboBox::from_label("Select serial port").show_index(
+                ui,
+                &mut self.selected_port,
+                alternatives.len(),
+                |i| alternatives[i].clone(),
+            );
+            if (!serialport::available_ports()
+                .expect("Serial port error")
+                .is_empty())
+                && ui.button("Connect").clicked()
+            {
+                self.communicator
+                    .connect(alternatives[self.selected_port].clone());
+            }
+            if ui.button("Disconnect").clicked() {
+                self.communicator.stop();
+            }
+            ui.heading("Active: ".to_owned() + self.communicator.active_scenario());
+            ui.add(egui::Slider::new(&mut self.temp, 0.0..=10.0).text("value"));
 
-                ui.add(Gauge::new(self.temp, 0.0..=37.0, 200.0, Color32::RED).text("hello"));
-                ui.separator();
+            ui.add(Gauge::new(self.temp, 0.0..=37.0, 200.0, Color32::RED).text("hello"));
+            ui.separator();
 
-                ui.add(egui::github_link_file!(
+            ui.add(egui::github_link_file!(
                 "https://github.com/emilk/eframe_template/blob/master/",
                 "Source code."
             ));
 
-                ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
-                    powered_by_egui_and_eframe(ui);
-                    egui::warn_if_debug_build(ui);
-                });
-            }
-        );
+            ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
+                powered_by_egui_and_eframe(ui);
+                egui::warn_if_debug_build(ui);
+            });
+        });
     }
 
     /// Called by the frame work to save state before shutdown.

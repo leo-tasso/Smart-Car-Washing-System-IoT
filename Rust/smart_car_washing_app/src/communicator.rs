@@ -35,7 +35,7 @@ impl Communicator {
         self.maintenance_req
     }
     pub fn active_scenario(&self) -> &str {
-        &self.active_scenario
+        self.active_scenario.as_str()
     }
     pub fn connected_port(&self) -> &Option<Box<dyn SerialPort>> {
         &self.connected_port
