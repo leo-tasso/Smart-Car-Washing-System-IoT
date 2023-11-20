@@ -50,18 +50,18 @@ impl Communicator {
         let running = self.connected_port.is_some();
 
         thread::spawn(move || loop {
-            while running {
+            if !running {break;}
             clone
                 .write_all(&[5, 6, 7, 8])
                 .expect("Failed to write to serial port");
             thread::sleep(Duration::from_millis(1000));
-            }
         });
         let mut buffer: [u8; 1] = [0; 1];
         let mut clone = self.connected_port.as_mut()
         .unwrap()
         .try_clone().expect("Failed to clone");
         thread::spawn(move ||loop {
+            if !running {break;}
             match clone.read(&mut buffer) {
                 Ok(bytes) => {
                     if bytes == 1 {
