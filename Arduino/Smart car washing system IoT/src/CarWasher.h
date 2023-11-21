@@ -18,6 +18,7 @@ class CarWasher {
     double temp;
     bool requiringManteinance;
     bool gateOpen;
+    unsigned int washingPercentage;
     unsigned int washedCars;
     scenario activeScenario;
 };
