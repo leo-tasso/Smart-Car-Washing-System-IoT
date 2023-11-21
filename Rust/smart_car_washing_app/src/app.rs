@@ -59,16 +59,13 @@ impl eframe::App for SmartCarWashingApp {
             // The top panel is often a good place for a menu bar:
 
             egui::menu::bar(ui, |ui| {
-                {
-                    ui.menu_button("File", |ui| {
-                        if ui.button("Quit").clicked() {
-                            _frame.close();
-                        }
-                    });
-                    ui.add_space(16.0);
-                }
-
-                egui::widgets::global_dark_light_mode_buttons(ui);
+                ui.menu_button("Menu", |ui| {
+                    egui::widgets::global_dark_light_mode_buttons(ui);
+                    if ui.button("Quit").clicked() {
+                        _frame.close();
+                    }
+                });
+                ui.add_space(16.0);
             });
         });
 
@@ -97,7 +94,11 @@ impl eframe::App for SmartCarWashingApp {
                 |i| alternatives[i].clone(),
             );
             if ui
-                .add_enabled(!self.communicator.connected() && serialport::available_ports().is_ok_and(|r| !r.is_empty()), egui::Button::new("Connect"))
+                .add_enabled(
+                    !self.communicator.connected()
+                        && serialport::available_ports().is_ok_and(|r| !r.is_empty()),
+                    egui::Button::new("Connect"),
+                )
                 .clicked()
             {
                 self.communicator
@@ -105,20 +106,29 @@ impl eframe::App for SmartCarWashingApp {
             }
 
             if ui
-                .add_enabled(self.communicator.connected(), egui::Button::new("Disconnect"))
+                .add_enabled(
+                    self.communicator.connected(),
+                    egui::Button::new("Disconnect"),
+                )
                 .clicked()
             {
                 self.communicator.stop()
             };
             if ui
-            .add_enabled(self.communicator.connected() && self.communicator.maintenance_req(), egui::Button::new("Maintainance done"))
-            .clicked()
-        {
-            self.communicator.maintenance_done();
-        };
+                .add_enabled(
+                    self.communicator.connected() && self.communicator.maintenance_req(),
+                    egui::Button::new("Maintainance done"),
+                )
+                .clicked()
+            {
+                self.communicator.maintenance_done();
+            };
             ui.heading("Active: ".to_owned() + self.communicator.active_scenario().as_str());
             ui.add(egui::Slider::new(&mut self.temp, 0.0..=10.0).text("value"));
-            ui.add(Gauge::new(self.communicator.temp(), 0.0..=37.0, 200.0, Color32::GREEN).text("Sys Temp"));
+            ui.add(
+                Gauge::new(self.communicator.temp(), 0.0..=37.0, 200.0, Color32::GREEN)
+                    .text("Sys Temp"),
+            );
             ui.separator();
 
             ui.add(egui::github_link_file!(
