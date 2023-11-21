@@ -4,6 +4,7 @@ extern crate egui_gauge;
 extern crate eframe;
 extern crate serialport;
 extern crate json;
+extern crate egui;
 
 use communicator::Communicator;
 use crate::app::SmartCarWashingApp;

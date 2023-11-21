@@ -2,9 +2,9 @@ use eframe::epaint::mutex::Mutex;
 use json::parse;
 use serialport::SerialPort;
 use std::io::{Read, Write};
-use std::str::from_utf8;
 use std::sync::Arc;
-use std::{io, thread};
+use std::thread;
+use egui::TextBuffer;
 
 pub struct InnerCommunicator {
     temp: f32,
@@ -71,24 +71,40 @@ impl Communicator {
             .unwrap()
             .try_clone()
             .unwrap();
-        let mut serial_buf: Vec<u8> = vec![0; 128];
+        let mut serial_buffer: Vec<u8> = Vec::new();
+        let mut buffer: [u8; 1] = [0; 1];
         thread::spawn(move || loop {
-            match cloned_port.read(serial_buf.as_mut_slice()) {
-                Ok(t) => {
-                    io::stdout().write_all(&serial_buf[..t]).unwrap();
-                    match parse(from_utf8(&serial_buf[..t]).expect("Error extracting string")) {
-                        Ok(js) => {
-                            let json_res = js;
-                            match json_res["Temp"].as_f32() {
-                                Some(res) => local_self.lock().temp = res,
-                                None => local_self.lock().temp = 0.0,
-                            };
+            match cloned_port.read(&mut buffer) {
+                Ok(bytes_read) => {
+                    if bytes_read > 0 {
+                        serial_buffer.push(buffer[0]);
+                        // Check if you have received a complete message
+                        if buffer[0] == b'\n' {
+                            // Process the received message (in serial_buffer)
+                            let received_message = String::from_utf8_lossy(&serial_buffer);
+                            //println!("Received: {}", received_message);
+
+                            if let Ok(res_json) = parse(received_message.as_str()) {
+                                //local_self.lock().temp = res_json["Temp"].as_f32().unwrap()
+                                //println!("Parsed: {:#?}", res_json);
+                                match res_json["Temp"].as_f32() {
+                                    None => {}
+                                    Some(t) => {local_self.lock().temp = t}
+                                }
+                                match res_json["Scenario"].as_str() {
+                                    None => {}
+                                    Some(s) => {local_self.lock().active_scenario = s.to_string()}
+                                }
+                            }
+                            // Clear the buffer for the next message
+                            serial_buffer.clear();
                         }
-                        Err(_) => {}
                     }
                 }
-                Err(ref e) if e.kind() == io::ErrorKind::TimedOut => (),
-                Err(e) => eprintln!("{:?}", e),
+                Err(e) => {
+                    eprintln!("Error reading from serial port: {}", e);
+                    break;
+                }
             }
         });
     }
