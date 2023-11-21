@@ -12,6 +12,7 @@ pub struct SmartCarWashingApp {
 
     #[serde(skip)] // This how you opt-out of serialization of a field
     temp: f32,
+    #[serde(skip)] // This how you opt-out of serialization of a field
     selected_port: usize,
     #[serde(skip)] // This how you opt-out of serialization of a field
     communicator: Communicator,
@@ -81,15 +82,13 @@ impl eframe::App for SmartCarWashingApp {
             if alternatives.is_empty() {
                 alternatives.append(&mut vec!["No port found".to_string()]);
             }
-            ui.horizontal(|ui| {
-                ui.label("Select serial port:");
-                egui::ComboBox::from_label("").show_index(
-                    ui,
-                    &mut self.selected_port,
-                    alternatives.len(),
-                    |i| alternatives[i].clone(),
-                );
-            });
+            ui.label("Select serial port:");
+            egui::ComboBox::from_label("").show_index(
+                ui,
+                &mut self.selected_port,
+                alternatives.len(),
+                |i| alternatives[i].clone(),
+            );
             ui.horizontal(|ui| {
                 if ui
                     .add_enabled(
@@ -122,7 +121,9 @@ impl eframe::App for SmartCarWashingApp {
             {
                 self.communicator.maintenance_done();
             };
-            ui.heading("Active scenario: ".to_owned() + self.communicator.active_scenario().as_str());
+            ui.heading(
+                "Active scenario: ".to_owned() + self.communicator.active_scenario().as_str(),
+            );
             ui.add(
                 Gauge::new(self.communicator.temp(), 0.0..=37.0, 200.0, Color32::GREEN)
                     .text("Sys Temp"),

@@ -13,10 +13,19 @@ mod communicator;
 fn main() -> eframe::Result<()> {
     env_logger::init(); // Log to stderr (if you run with `RUST_LOG=debug`).
 
+    let icon = image::open("smartCarWash.png")
+    .expect("Failed to open icon path")
+    .to_rgba8();
+let (icon_width, icon_height) = icon.dimensions();
     let native_options = eframe::NativeOptions {
         initial_window_size: Some([250.0, 330.0].into()),
         min_window_size: Some([250.0, 330.0].into()),
         max_window_size: Some([250.0, 330.0].into()),
+        icon_data: Some(eframe::IconData {
+            rgba: icon.into_raw(),
+            width: icon_width,
+            height: icon_height,
+        }),
         ..Default::default()
     };
 
