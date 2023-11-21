@@ -15,6 +15,9 @@ pub struct InnerCommunicator {
 
 pub struct Communicator {
     inner: Arc<Mutex<InnerCommunicator>>,
+    read_thread: Option<thread::JoinHandle<()>>,
+    stop_flag: Arc<Mutex<bool>>,
+
 }
 
 impl Default for Communicator {
@@ -26,6 +29,8 @@ impl Default for Communicator {
                 active_scenario: "".to_string(),
                 connected_port: None,
             })),
+            read_thread: None,
+            stop_flag: Arc::new(Mutex::new(false)),
         }
     }
 }
@@ -64,6 +69,7 @@ impl Communicator {
             thread::sleep(Duration::from_millis(1000));
         });
         let local_self = self.inner.clone();*/
+        let stop_flag_clone = Arc::clone(&self.stop_flag);
         let mut cloned_port = local_self
             .lock()
             .connected_port
@@ -73,7 +79,8 @@ impl Communicator {
             .unwrap();
         let mut serial_buffer: Vec<u8> = Vec::new();
         let mut buffer: [u8; 1] = [0; 1];
-        thread::spawn(move || loop {
+        self.read_thread = Option::from(thread::spawn(move || loop {
+            if *stop_flag_clone.lock() { break; }
             match cloned_port.read(&mut buffer) {
                 Ok(bytes_read) => {
                     if bytes_read > 0 {
@@ -89,11 +96,11 @@ impl Communicator {
                                 //println!("Parsed: {:#?}", res_json);
                                 match res_json["Temp"].as_f32() {
                                     None => {}
-                                    Some(t) => {local_self.lock().temp = t}
+                                    Some(t) => { local_self.lock().temp = t }
                                 }
                                 match res_json["Scenario"].as_str() {
                                     None => {}
-                                    Some(s) => {local_self.lock().active_scenario = s.to_string()}
+                                    Some(s) => { local_self.lock().active_scenario = s.to_string() }
                                 }
                             }
                             // Clear the buffer for the next message
@@ -106,10 +113,14 @@ impl Communicator {
                     break;
                 }
             }
-        });
+        }));
     }
     pub fn stop(&mut self) {
         if self.inner.lock().connected_port.is_some() {
+            *self.stop_flag.lock() = true;
+            if let Some(handle) = self.read_thread.take() {
+                handle.join().unwrap();
+            }
             self.inner.lock().connected_port = None;
         }
     }
@@ -120,7 +131,7 @@ impl Communicator {
             .connected_port
             .as_mut()
             .unwrap()
-            .write_all("MaintDone".as_bytes())
+            .write_all("MaintenanceDone".as_bytes())
             .expect("Failed to write to serial port");
     }
 }

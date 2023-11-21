@@ -115,7 +115,7 @@ impl eframe::App for SmartCarWashingApp {
             if ui
                 .add_enabled(
                     self.communicator.connected() && self.communicator.maintenance_req(),
-                    egui::Button::new("Maintainance done"),
+                    egui::Button::new("Maintenance done"),
                 )
                 .clicked()
             {
