@@ -79,8 +79,10 @@ impl Communicator {
                     match parse(from_utf8(&serial_buf[..t]).expect("Error extracting string")) {
                         Ok(js) => {
                             let json_res = js;
-                            local_self.lock().temp =
-                                json_res["Temp"].as_f32().expect("Error parsing Temp");
+                            match json_res["Temp"].as_f32() {
+                                Some(res) => local_self.lock().temp = res,
+                                None => local_self.lock().temp = 0.0,
+                            };
                         }
                         Err(_) => {}
                     }
@@ -97,7 +99,12 @@ impl Communicator {
     }
 
     pub fn maintenance_done(&mut self) {
-        self.inner.lock().connected_port.as_mut().unwrap().write_all("MaintDone".as_bytes())
-        .expect("Failed to write to serial port");
+        self.inner
+            .lock()
+            .connected_port
+            .as_mut()
+            .unwrap()
+            .write_all("MaintDone".as_bytes())
+            .expect("Failed to write to serial port");
     }
 }
