@@ -44,6 +44,7 @@ void Communicator::tick() {
         doc["RequiringMaint"] = carWasher->requiringManteinance;
         doc["WashingPercentage"] = carWasher->washingPercentage;
         serializeJson(doc, Serial);
+        Serial.println();
         Serial.flush();
     }
     if (Serial.available() > 0) {
