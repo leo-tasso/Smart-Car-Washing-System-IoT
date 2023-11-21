@@ -71,12 +71,6 @@ impl eframe::App for SmartCarWashingApp {
 
         egui::CentralPanel::default().show(ctx, |ui| {
             // The central panel the region left after adding TopPanel's and SidePanel's
-            ui.heading("eframe template");
-
-            ui.horizontal(|ui| {
-                ui.label("Write something: ");
-                ui.text_edit_singleline(&mut self.label);
-            });
 
             let mut alternatives: Vec<String> = match serialport::available_ports() {
                 Ok(mut v) => v.iter_mut().map(|p| p.port_name.clone()).collect(),
@@ -87,33 +81,38 @@ impl eframe::App for SmartCarWashingApp {
             if alternatives.is_empty() {
                 alternatives.append(&mut vec!["No port found".to_string()]);
             }
-            egui::ComboBox::from_label("Select serial port").show_index(
-                ui,
-                &mut self.selected_port,
-                alternatives.len(),
-                |i| alternatives[i].clone(),
-            );
-            if ui
-                .add_enabled(
-                    !self.communicator.connected()
-                        && serialport::available_ports().is_ok_and(|r| !r.is_empty()),
-                    egui::Button::new("Connect"),
-                )
-                .clicked()
-            {
-                self.communicator
-                    .connect(alternatives[self.selected_port].clone());
-            }
+            ui.horizontal(|ui| {
+                ui.label("Select serial port:");
+                egui::ComboBox::from_label("").show_index(
+                    ui,
+                    &mut self.selected_port,
+                    alternatives.len(),
+                    |i| alternatives[i].clone(),
+                );
+            });
+            ui.horizontal(|ui| {
+                if ui
+                    .add_enabled(
+                        !self.communicator.connected()
+                            && serialport::available_ports().is_ok_and(|r| !r.is_empty()),
+                        egui::Button::new("Connect"),
+                    )
+                    .clicked()
+                {
+                    self.communicator
+                        .connect(alternatives[self.selected_port].clone());
+                }
 
-            if ui
-                .add_enabled(
-                    self.communicator.connected(),
-                    egui::Button::new("Disconnect"),
-                )
-                .clicked()
-            {
-                self.communicator.stop()
-            };
+                if ui
+                    .add_enabled(
+                        self.communicator.connected(),
+                        egui::Button::new("Disconnect"),
+                    )
+                    .clicked()
+                {
+                    self.communicator.stop()
+                };
+            });
             if ui
                 .add_enabled(
                     self.communicator.connected() && self.communicator.maintenance_req(),
@@ -123,21 +122,14 @@ impl eframe::App for SmartCarWashingApp {
             {
                 self.communicator.maintenance_done();
             };
-            ui.heading("Active: ".to_owned() + self.communicator.active_scenario().as_str());
-            ui.add(egui::Slider::new(&mut self.temp, 0.0..=10.0).text("value"));
+            ui.heading("Active scenario: ".to_owned() + self.communicator.active_scenario().as_str());
             ui.add(
                 Gauge::new(self.communicator.temp(), 0.0..=37.0, 200.0, Color32::GREEN)
                     .text("Sys Temp"),
             );
             ui.separator();
 
-            ui.add(egui::github_link_file!(
-                "https://github.com/emilk/eframe_template/blob/master/",
-                "Source code."
-            ));
-
             ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
-                powered_by_egui_and_eframe(ui);
                 egui::warn_if_debug_build(ui);
             });
             ui.ctx().request_repaint();
@@ -148,18 +140,4 @@ impl eframe::App for SmartCarWashingApp {
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
         eframe::set_value(storage, eframe::APP_KEY, self);
     }
-}
-
-fn powered_by_egui_and_eframe(ui: &mut egui::Ui) {
-    ui.horizontal(|ui| {
-        ui.spacing_mut().item_spacing.x = 0.0;
-        ui.label("Powered by ");
-        ui.hyperlink_to("egui", "https://github.com/emilk/egui");
-        ui.label(" and ");
-        ui.hyperlink_to(
-            "eframe",
-            "https://github.com/emilk/egui/tree/master/crates/eframe",
-        );
-        ui.label(".");
-    });
 }
