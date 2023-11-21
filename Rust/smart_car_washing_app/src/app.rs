@@ -90,7 +90,6 @@ impl eframe::App for SmartCarWashingApp {
             if alternatives.is_empty() {
                 alternatives.append(&mut vec!["No port found".to_string()]);
             }
-
             egui::ComboBox::from_label("Select serial port").show_index(
                 ui,
                 &mut self.selected_port,
@@ -117,7 +116,7 @@ impl eframe::App for SmartCarWashingApp {
         {
             self.communicator.maintenance_done();
         };
-            ui.heading("Active: ".to_owned() + self.communicator.active_scenario());
+            ui.heading("Active: ".to_owned() + self.communicator.active_scenario().as_str());
             ui.add(egui::Slider::new(&mut self.temp, 0.0..=10.0).text("value"));
             ui.add(Gauge::new(self.communicator.temp(), 0.0..=37.0, 200.0, Color32::GREEN).text("Sys Temp"));
             ui.separator();
@@ -131,6 +130,7 @@ impl eframe::App for SmartCarWashingApp {
                 powered_by_egui_and_eframe(ui);
                 egui::warn_if_debug_build(ui);
             });
+            ui.ctx().request_repaint();
         });
     }
 

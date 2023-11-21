@@ -3,6 +3,7 @@ extern crate serde;
 extern crate egui_gauge;
 extern crate eframe;
 extern crate serialport;
+extern crate json;
 
 use communicator::Communicator;
 use crate::app::SmartCarWashingApp;
@@ -29,6 +30,6 @@ fn main() -> eframe::Result<()> {
     eframe::run_native(
         "eframe template",
         native_options,
-        Box::new(|cc| Box::new(SmartCarWashingApp::new(cc, communicator))),
+        Box::new(|cc|Box::new(SmartCarWashingApp::new(cc, communicator))),
     )
 }
