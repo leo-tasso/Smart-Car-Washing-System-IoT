@@ -1,5 +1,7 @@
 # Smart-Car-Washing-System-IoT
 
+[Link to schematics](https://www.tinkercad.com/things/f70YHBy9Smm-assignment-2?sharecode=Qky5-qFBu0J0ZiFTgNouhOSUMISXsa-nNM_OSuO9-2k)
+
 We want to realise an embedded system called Smart Car-Washing System. The prototype  is meant to simulate a simple smart system for car washing.
 
 
