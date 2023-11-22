@@ -2,6 +2,8 @@
 #define _SERVO_MOTOR_IMPL_
 
 #include "ServoMotor.h"
+#include <Arduino.h>
+#include <ServoTimer2.h>
 
 class ServoMotorImpl: public ServoMotor{
 
