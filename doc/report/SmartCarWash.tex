@@ -1,0 +1,28 @@
+% MIT License
+
+% Copyright (c) 2022 Mihdí Caballero
+
+% Permission is hereby granted, free of charge, to any person obtaining a copy
+% of this software and associated documentation files (the "Software"), to deal
+% in the Software without restriction, including without limitation the rights
+% to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+% copies of the Software, and to permit persons to whom the Software is
+% furnished to do so, subject to the following conditions:
+%
+\documentclass[a4paper,12pt, english]{article}
+% Load all packages and settings in the preamble 
+\input{settings/packages}
+
+\begin{document}
+	% Load initial settings for the document
+	\input{settings/initial}	
+	% Cover page
+	\input{sections/00_cover_page}
+	\newpage             
+	\tableofcontents      
+	\newpage
+	% Sections
+	\input{sections/01_introduction}
+	\input{sections/03_results}
+
+\end{document}
