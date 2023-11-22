@@ -16,7 +16,7 @@ void setup()
     carWasher.temp = 15;
     carWasher.activeScenario = COMPLETE;
     // Initialize tasks and add to the scheduler.
-    sched->addTask(new CheckInPresenceDetector(500, &carWasher, PIR_PIN, L1_PIN));
+    sched->addTask(new CheckInPresenceDetion(500, &carWasher, PIR_PIN, L1_PIN));
     sched->addTask(new DisplayFeedback(1000, &carWasher, 0x27, 16, 2));
     sched->addTask(new Communicator(1000, &carWasher));
 }

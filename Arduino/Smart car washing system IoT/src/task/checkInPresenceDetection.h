@@ -6,7 +6,7 @@
 #include "sensors/Pir.h"
 #include "system/task.h"
 
-class CheckInPresenceDetector : public Task {
+class CheckInPresenceDetion : public Task {
    private:
     PresenceDetector *detector;
     Light *l1;
@@ -17,7 +17,7 @@ class CheckInPresenceDetector : public Task {
     } state{UNDETECTED};
 
    public:
-    CheckInPresenceDetector(int period, CarWasher *CarWasher, int pinPir, int pinL1);
+    CheckInPresenceDetion(int period, CarWasher *CarWasher, int pinPir, int pinL1);
     void tick() override;
 };
 

@@ -1,6 +1,6 @@
 #include "task/checkInPresenceDetection.h"
 
-CheckInPresenceDetector::CheckInPresenceDetector(int period,
+CheckInPresenceDetion::CheckInPresenceDetion(int period,
                                                  CarWasher *carWasher,
                                                  int pinPir,
                                                  int pinL1)
@@ -10,7 +10,7 @@ CheckInPresenceDetector::CheckInPresenceDetector(int period,
       carWasher(carWasher) {
 }
 
-void CheckInPresenceDetector::tick() {
+void CheckInPresenceDetion::tick() {
     this->state = detector->isDetected() ? DETECTED : UNDETECTED;
     if (this->state == DETECTED) {
         carWasher->carInCheckIn = true;
