@@ -8,11 +8,16 @@ Lcd::Lcd(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows) : lcd(new LiquidC
 }
 void Lcd::clear()
 {
+    col = 0;
     lcd->clear();
+    lcd->setCursor(0, col);
 }
 void Lcd::show(String msg)
-{
-    this->clear();
-    lcd->setCursor(0, 0);
+{    
     lcd->print(msg);
+}
+
+void Lcd::ln(){
+    col ++;
+    lcd->setCursor(0, col);
 }

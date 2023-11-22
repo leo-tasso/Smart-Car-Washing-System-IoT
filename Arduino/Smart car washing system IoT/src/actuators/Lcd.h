@@ -8,10 +8,12 @@
 class Lcd: public Display{
 private:
 LiquidCrystal_I2C * lcd;
+uint8_t col{0};
 
 public:
     Lcd(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows);
     void clear() override;
+    void ln() override;
     void show(String msg) override;
 };
 

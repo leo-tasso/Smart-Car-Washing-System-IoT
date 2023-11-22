@@ -21,7 +21,9 @@ void DisplayFeedback::tick() {
                 this->lcd->show("Ready to Wash");
                 break;
             case COMPLETE:
-                this->lcd->show("Washing complete, you can leave the area");
+                this->lcd->show("Washing complete");
+                this->lcd->ln();
+                this->lcd->show(" you can leave");
                 break;
             case MAINT_REQ:
                 this->lcd->show("Detected a Problem - Please Wait");
@@ -29,5 +31,6 @@ void DisplayFeedback::tick() {
             default:
                 break;
         }
+        this->prevScenario = carWasher->activeScenario;
     }
 }
