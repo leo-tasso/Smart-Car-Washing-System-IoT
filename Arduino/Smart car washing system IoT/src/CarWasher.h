@@ -1,16 +1,6 @@
 #ifndef __CARWASHER__
 #define __CARWASHER__
 
-enum scenario {
-    SLEEP,
-    WELCOME,
-    ENTER,
-    FULL_ENTERED,
-    WASHING,
-    COMPLETE,
-    MAINT_REQ,
-};
-
 class CarWasher {
    public:
     bool carInCheckIn;
@@ -18,9 +8,10 @@ class CarWasher {
     double temp;
     bool requiringManteinance;
     bool gateOpen;
+    bool washing;
+    bool washingComplete;
     unsigned int washingPercentage;
     unsigned int washedCars;
-    scenario activeScenario;
 };
 
 #endif

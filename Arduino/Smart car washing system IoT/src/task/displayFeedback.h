@@ -9,8 +9,6 @@ class DisplayFeedback : public Task {
    private:
     CarWasher *carWasher;
     Display *lcd;
-    scenario prevScenario{SLEEP};
-
    public:
     DisplayFeedback(int period,
                     CarWasher *CarWasher,

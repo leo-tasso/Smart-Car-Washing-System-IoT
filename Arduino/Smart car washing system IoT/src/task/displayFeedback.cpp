@@ -8,29 +8,25 @@ DisplayFeedback::DisplayFeedback(int period, CarWasher *carWasher, uint8_t lcd_A
 }
 
 void DisplayFeedback::tick() {
-    if (this->carWasher->activeScenario != this->prevScenario) {
+    if (this->carWasher->requiringManteinance) {
         this->lcd->clear();
-        switch (this->carWasher->activeScenario) {
-            case WELCOME:
-                this->lcd->show("Welcome");
-                break;
-            case ENTER:
-                this->lcd->show("Proceed to the Washing Area");
-                break;
-            case FULL_ENTERED:
-                this->lcd->show("Ready to Wash");
-                break;
-            case COMPLETE:
-                this->lcd->show("Washing complete");
-                this->lcd->ln();
-                this->lcd->show(" you can leave");
-                break;
-            case MAINT_REQ:
-                this->lcd->show("Detected a Problem - Please Wait");
-                break;
-            default:
-                break;
-        }
-        this->prevScenario = carWasher->activeScenario;
+        this->lcd->show("Detected a Problem - Please Wait");
+    } else if (this->carWasher->washingComplete && this->carWasher->gateOpen) {
+        this->lcd->clear();
+        this->lcd->show("Washing complete");
+        this->lcd->ln();
+        this->lcd->show(" you can leave");
+    } else if (this->carWasher->washing || this->carWasher->washingComplete) {
+        this->lcd->clear();
+        this->lcd->show("Washing...");
+    } else if (this->carWasher->carInWashingArea) {
+        this->lcd->clear();
+        this->lcd->show("Ready to Wash");
+    } else if (this->carWasher->gateOpen) {
+        this->lcd->clear();
+        this->lcd->show("Proceed to the Washing Area");
+    } else {
+        this->lcd->clear();
+        this->lcd->show("Welcome");
     }
 }
