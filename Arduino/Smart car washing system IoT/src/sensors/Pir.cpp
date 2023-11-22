@@ -7,5 +7,6 @@ Pir::Pir(int pin) : pin(pin)
 }
 
 bool Pir::isDetected(){
+  detected = digitalRead(pin);
   return detected;
 }
