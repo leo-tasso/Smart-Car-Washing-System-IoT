@@ -6,16 +6,16 @@
 #include <ServoTimer2.h>
 
 class ServoMotorImpl: public ServoMotor{
+    private:
+        int pin;
+        ServoTimer2 motor;
 
-private:
-    int pin;
+    public:
+        ServoMotorImpl(int pin);
 
-public:
-    ServoMotorImpl(int pin);
-
-    void on() = 0;
-    void off() = 0;
-    void setPosition(int angle) = 0;
+        void on() = 0;
+        void off() = 0;
+        void setPosition(int angle) = 0;
     
 };
 
