@@ -2,6 +2,8 @@
 
 [Link to schematics](https://www.tinkercad.com/things/f70YHBy9Smm-assignment-2?sharecode=Qky5-qFBu0J0ZiFTgNouhOSUMISXsa-nNM_OSuO9-2k)
 
+[Link to diagram](https://lucid.app/lucidchart/5a9f6e87-3f6f-4bd8-887e-7e449b729c18/edit?invitationId=inv_421cef2f-60e6-4f72-8690-d0ec44e2a91e)
+
 We want to realise an embedded system called Smart Car-Washing System. The prototype  is meant to simulate a simple smart system for car washing.
 
 
