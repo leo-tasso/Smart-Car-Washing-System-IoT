@@ -3,7 +3,6 @@
 
 class Button {
    public:
-    Button();
     virtual bool isPressed() = 0;
 };
 
