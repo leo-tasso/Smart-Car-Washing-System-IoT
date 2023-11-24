@@ -5,6 +5,7 @@
 #include "config.h"
 
 ManageAccess::ManageAccess(int period, CarWasher *carWasher) : Task(period), carWasher(carWasher) {
+    this->motor = new ServoMotorImpl(SERVO_PIN);
     setState(CLOSED);
 }
 

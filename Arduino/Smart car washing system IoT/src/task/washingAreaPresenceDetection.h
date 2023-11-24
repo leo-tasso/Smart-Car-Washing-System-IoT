@@ -9,7 +9,7 @@ class WashingAreaPresenceDetection : public Task {
 private:
     PresenceDetector *detector;
     CarWasher *carWasher;
-    bool detected = false;
+    enum {DETECTED, UNDETECTED} state{UNDETECTED};
 
 public:
     WashingAreaPresenceDetection(int period, CarWasher *carWasher, int pinSonar);

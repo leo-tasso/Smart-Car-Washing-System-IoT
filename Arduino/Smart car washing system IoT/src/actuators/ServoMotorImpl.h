@@ -13,9 +13,9 @@ class ServoMotorImpl: public ServoMotor{
     public:
         ServoMotorImpl(int pin);
 
-        void on() = 0;
-        void off() = 0;
-        void setPosition(int angle) = 0;
+        void on() override;
+        void off() override;
+        void setPosition(int angle) override;
     
 };
 
