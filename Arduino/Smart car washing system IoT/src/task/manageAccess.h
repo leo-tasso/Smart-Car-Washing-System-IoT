@@ -7,11 +7,12 @@
 
 class ManageAccess : public Task{
     private:
+        enum STATE{CLOSED, OPENING, OPEN, CLOSING} state;
         ServoMotor* motor;
-        void setState(int state);
         CarWasher *carWasher;
-
-        enum {CLOSED, OPENING, OPEN, CLOSING} state;
+        void setState(STATE state);
+        long elapsedInState;
+        long startOpening;
 
     public:
         ManageAccess(int period, CarWasher *carWasher);
