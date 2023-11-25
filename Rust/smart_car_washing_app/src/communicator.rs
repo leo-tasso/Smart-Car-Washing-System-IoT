@@ -89,18 +89,14 @@ impl Communicator {
                         if buffer[0] == b'\n' {
                             // Process the received message (in serial_buffer)
                             let received_message = String::from_utf8_lossy(&serial_buffer);
-                            //println!("Received: {}", received_message);
+                            println!("Received: {}", received_message);
 
                             if let Ok(res_json) = parse(received_message.as_str()) {
                                 //local_self.lock().temp = res_json["Temp"].as_f32().unwrap()
                                 //println!("Parsed: {:#?}", res_json);
-                                match res_json["Temp"].as_f32() {
+                                match res_json["temp"].as_f32() {
                                     None => {}
                                     Some(t) => { local_self.lock().temp = t }
-                                }
-                                match res_json["Scenario"].as_str() {
-                                    None => {}
-                                    Some(s) => { local_self.lock().active_scenario = s.to_string() }
                                 }
                             }
                             // Clear the buffer for the next message

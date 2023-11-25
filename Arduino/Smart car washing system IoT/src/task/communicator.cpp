@@ -17,7 +17,7 @@ void Communicator::tick() {
         doc["carInCheckIn"] = carWasher->carInCheckIn;
         doc["carInWashingArea"] = carWasher->carInWashingArea;
         doc["temp"] = carWasher->temp;
-        doc["requiringManteinance"] = carWasher->requiringManteinance;
+        doc["requiringMaintenance"] = carWasher->requiringManteinance;
         doc["gateOpen"] = carWasher->gateOpen;
         doc["washing"] = carWasher->washing;
         doc["washingComplete"] = carWasher->washingComplete;
