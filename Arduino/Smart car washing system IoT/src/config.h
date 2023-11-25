@@ -16,6 +16,7 @@ constexpr int START_BUTTON_PIN = 2;
 constexpr int N1 = 1000;          // ms
 constexpr int N2 = 500;           // ms
 constexpr int N3 = 15000;         // ms washing time
+constexpr int N4 = 5000;          // ms exit time
 constexpr int openingTime = 150;  // ms
 
 #endif
