@@ -12,7 +12,7 @@ Washer::Washer(int period,
     : TaskWithState(period),
       carWasher(carWasher),
       l3(new Led(pinL3)),
-      button(new ButtonImpl(pinButton)) {
+      button(new ButtonImpl(pinButton, true)) {
     this->setState(STOPPED);
 }
 

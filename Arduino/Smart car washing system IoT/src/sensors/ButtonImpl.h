@@ -5,11 +5,12 @@
 
 class ButtonImpl : public Button {
    public:
-    ButtonImpl(int pin);
+    ButtonImpl(int pin, bool pullup);
     bool isPressed() override;
 
    private:
     int pin;
+    bool pullup;
     bool pressed{false};
 };
 
