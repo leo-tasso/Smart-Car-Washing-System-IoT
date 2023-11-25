@@ -35,13 +35,17 @@ void Washer::tick() {
             break;
         case WASHING:
             carWasher->washingPercentage = (this->elapsedTimeInState() + this->timeInMainteinance) / N3;
+            if(this->carWasher->requiringManteinance){
+               this->setState(MAINT_REQ); 
+            }
             if (this->elapsedTimeInState() + this->timeInMainteinance >= N3) {
                 l3->turnOn();
 
-                carWasher->washing = false;
-                carWasher->washingComplete = true;
-                carWasher->washingPercentage = 0;
-                carWasher->washedCars++;
+                this->carWasher->washing = false;
+                this->carWasher->washingComplete = true;
+                this->carWasher->washingPercentage = 0;
+                this->carWasher->washedCars++;
+                this->timeInMainteinance=0;
                 this->setState(STOPPED);
             }
             break;
