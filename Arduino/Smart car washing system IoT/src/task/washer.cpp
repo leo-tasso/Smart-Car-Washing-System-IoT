@@ -6,7 +6,7 @@
 #include "config.h"
 
 Washer::Washer(int period,
-               CarWasher *CarWasher,
+               CarWasher *carWasher,
                int pinL3,
                int pinButton)
     : TaskWithState(period),
