@@ -14,10 +14,15 @@ Communicator::Communicator(int period, CarWasher *carWasher)
 void Communicator::tick() {
     if (Serial.availableForWrite()) {
         DynamicJsonDocument doc(128);
-        doc["Temp"] = carWasher->temp;
-        doc["WashedCars"] = carWasher->washedCars;
-        doc["RequiringMaint"] = carWasher->requiringManteinance;
-        doc["WashingPercentage"] = carWasher->washingPercentage;
+        doc["carInCheckIn"] = carWasher->carInCheckIn;
+        doc["carInWashingArea"] = carWasher->carInWashingArea;
+        doc["temp"] = carWasher->temp;
+        doc["requiringManteinance"] = carWasher->requiringManteinance;
+        doc["gateOpen"] = carWasher->gateOpen;
+        doc["washing"] = carWasher->washing;
+        doc["washingComplete"] = carWasher->washingComplete;
+        doc["washingPercentage"] = carWasher->washingPercentage;
+        doc["washedCars"] = carWasher->washedCars;
         serializeJson(doc, Serial);
         Serial.println();
         Serial.flush();
