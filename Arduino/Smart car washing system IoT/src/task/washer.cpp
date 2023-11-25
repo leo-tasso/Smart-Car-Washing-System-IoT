@@ -19,6 +19,9 @@ Washer::Washer(int period,
 void Washer::tick() {
     switch (this->getState()) {
         case STOPPED:
+            if (!carWasher->carInWashingArea) {
+                l3->turnOff();
+            }
             if (carWasher->carInWashingArea && !carWasher->gateOpen && button->isPressed()) {
                 carWasher->washing = true;
                 this->setState(WASHING);
@@ -33,6 +36,8 @@ void Washer::tick() {
         case WASHING:
             carWasher->washingPercentage = (this->elapsedTimeInState() + this->timeInMainteinance) / N3;
             if (this->elapsedTimeInState() + this->timeInMainteinance >= N3) {
+                l3->turnOn();
+
                 carWasher->washing = false;
                 carWasher->washingComplete = true;
                 carWasher->washingPercentage = 0;
