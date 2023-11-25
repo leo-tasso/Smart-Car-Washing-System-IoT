@@ -36,6 +36,7 @@ void Washer::tick() {
                 carWasher->washing = false;
                 carWasher->washingComplete = true;
                 carWasher->washingPercentage = 0;
+                carWasher->washedCars++;
                 this->setState(STOPPED);
             }
             break;
