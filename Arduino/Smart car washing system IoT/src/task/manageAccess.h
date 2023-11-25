@@ -1,17 +1,15 @@
 #ifndef _MENAGEACCESS_
 #define _MENAGEACCESS_
 
-#include "system/task.h"
+#include "system/taskWithState.h"
 #include "actuators/ServoMotor.h"
 #include "CarWasher.h"
 
-class ManageAccess : public Task{
+class ManageAccess : public TaskWithState{
     private:
-        enum STATE{CLOSED, OPENING, OPEN, CLOSING} state;
+        enum STATE{CLOSED, WAIT, WAIT_EXIT, WAIT_ENTRING, OPENING, OPEN, CLOSING} state;
         ServoMotor* motor;
         CarWasher *carWasher;
-        void setState(STATE state);
-        long elapsedInState;
         long startOpening;
 
     public:

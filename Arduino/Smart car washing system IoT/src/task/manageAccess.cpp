@@ -4,41 +4,58 @@
 #include "CarWasher.h"
 #include "config.h"
 
-
-ManageAccess::ManageAccess(int period, CarWasher *carWasher) : Task(period), carWasher(carWasher) {
-    this->motor = new ServoMotorImpl(SERVO_PIN);
+ManageAccess::ManageAccess(int period, CarWasher *carWasher) 
+    : TaskWithState(period), 
+      carWasher(carWasher),
+      motor(new ServoMotorImpl(SERVO_PIN)) {
     this->motor->on();
     setState(CLOSED);
 }
 
 void ManageAccess::tick() {
-    switch (state){
+    switch (this->getState()){
     case CLOSED:
-        if (carWasher->carInCheckIn){
+        if (carWasher->carInCheckIn && !carWasher->carInWashingArea){
+            setState(WAIT);
+        } else if (carWasher->washingComplete){
+            this->motor->setPosition(90);
+            this->setState(OPENING);
+        }
+        break;
+    case WAIT:
+        if (this->elapsedTimeInState() >= N1){
+            this->motor->setPosition(90);
             setState(OPENING);
-            elapsedInState = millis();
         }
         break;
     case OPENING:
-	if (millis() - elapsedInState >= N1 && startOpening == 0){
-            this->motor->setPosition(90);
-	    startOpening = millis();
-        }
-        if (millis()-startOpening >= openingTime)
+	    if (this->elapsedTimeInState() >= transitionTime)
             setState(OPEN);
-            elapsedInState = millis();
         break;
     case OPEN:
-
+        if (carWasher->carInWashingArea){
+            setState(WAIT_EXIT);
+        } else setState(WAIT_ENTRING);
+        break;
+    case WAIT_ENTRING:
+        if (carWasher->carInWashingArea){
+            this->motor->setPosition(0);
+            setState(CLOSING);
+        }
+        break;
+    case WAIT_EXIT:
+        if (!carWasher->carInWashingArea){
+            if (carWasher->carInCheckIn)
+                setState(WAIT_ENTRING);
+            this->motor->setPosition(0);
+            setState(CLOSING);
+        }
         break;
     case CLOSING:
-
+        if(this->elapsedTimeInState() >= transitionTime)
+            setState(CLOSED);
         break;
     default:
         break;
     }
 };
-
-void ManageAccess::setState(STATE newState){
-    state = newState;
-}
