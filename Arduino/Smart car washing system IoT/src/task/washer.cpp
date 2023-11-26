@@ -37,7 +37,7 @@ void Washer::tick() {
             }
             break;
         case WasherStates::WASHING:
-            carWasher->washingPercentage = (this->elapsedTimeInState() + this->timeInMainteinance) / N3;
+            carWasher->washingPercentage = (this->elapsedTimeInState() + this->timeInMainteinance) / (N3/100);
             if (this->carWasher->requiringManteinance) {
                 this->setState(WasherStates::MAINT_REQ);
             }

@@ -9,6 +9,8 @@ class DisplayFeedback : public Task {
    private:
     CarWasher *carWasher;
     Display *lcd;
+    unsigned short colDisplay;
+
    public:
     DisplayFeedback(int period,
                     CarWasher *CarWasher,
