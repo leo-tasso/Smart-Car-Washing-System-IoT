@@ -7,7 +7,8 @@
 #include "sensors/ButtonImpl.h"
 #include "actuators/Led.h"
 
-class Washer : public TaskWithState{
+enum class WasherStates {STOPPED, WASHING, MAINT_REQ};
+class Washer : public TaskWithState<WasherStates>{
    private:
     CarWasher *carWasher;
     Led * l3;
@@ -22,5 +23,4 @@ class Washer : public TaskWithState{
     void tick() override;
 };
 
-enum WasherStates {STOPPED, WASHING, MAINT_REQ};
 #endif

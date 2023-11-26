@@ -5,7 +5,8 @@
 #include "CarWasher.h"
 #include "system/taskWithState.h"
 
-class WashingAreaPresenceDetection : public TaskWithState {
+enum class PresenceStates{DETECTED, UNDETECTED, WAIT};
+class WashingAreaPresenceDetection : public TaskWithState<PresenceStates> {
 private:
     Sonar *sonar;
     CarWasher *carWasher;
@@ -16,5 +17,5 @@ public:
 
 };
 
-enum {DETECTED, UNDETECTED, WAIT};
+
 #endif
