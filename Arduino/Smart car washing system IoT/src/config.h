@@ -18,5 +18,8 @@ constexpr int N2 = 500;           // ms
 constexpr int N3 = 15000;         // ms washing time
 constexpr int N4 = 5000;          // ms exit time
 constexpr int transitionTime = 150;  // ms
+constexpr int minDist = 100; //100cm = 1m
+constexpr int maxDist = 300; //300cm = 3m
+constexpr int noObjDetected = -1;
 
 #endif

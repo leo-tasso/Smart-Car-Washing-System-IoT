@@ -1,15 +1,15 @@
 #ifndef _WASHINGAREAPRESENCEDETECTION_
 #define _WASHINGAREAPRESENCEDETECTION_
 
-#include "sensors/PresenceDetector.h"
+#include "sensors/Sonar.h"
 #include "CarWasher.h"
-#include "system/task.h"
+#include "system/taskWithState.h"
 
-class WashingAreaPresenceDetection : public Task {
+class WashingAreaPresenceDetection : public TaskWithState {
 private:
-    PresenceDetector *detector;
+    Sonar *sonar;
     CarWasher *carWasher;
-    enum {DETECTED, UNDETECTED} state{UNDETECTED};
+    enum {DETECTED, UNDETECTED, WAIT} state;
 
 public:
     WashingAreaPresenceDetection(int period, CarWasher *carWasher, int pinSonar);

@@ -6,8 +6,8 @@
 
 ManageAccess::ManageAccess(int period, CarWasher *carWasher) 
     : TaskWithState(period), 
-      carWasher(carWasher),
-      motor(new ServoMotorImpl(SERVO_PIN)) {
+      motor(new ServoMotorImpl(SERVO_PIN)),
+      carWasher(carWasher) {
     this->motor->on();
     setState(CLOSED);
 }

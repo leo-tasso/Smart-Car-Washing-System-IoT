@@ -2,14 +2,13 @@
 #define _SONAR_
 
 #include "sensors/proximitySensor.h"
-
-#define NO_OBJ_DETECTED -1;
+#include "config.h"
 
 class Sonar : public ProximitySensor{
     public:
         Sonar(int echoPin, int trigPin, long maxTime);
         float getDistance();
-        float setTemperature(float temp);
+        void setTemperature(float temp);
 
     private:
         float getSoundVelocity();

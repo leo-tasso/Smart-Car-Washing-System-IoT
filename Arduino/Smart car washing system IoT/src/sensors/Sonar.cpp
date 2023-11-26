@@ -16,7 +16,7 @@ float Sonar::getSoundVelocity(){
     return 331.5 + 0.6*temperature;
 }
 
-float Sonar::setTemperature(float temp){
+void Sonar::setTemperature(float temp){
     this->temperature = temp;
 }
 
@@ -30,14 +30,10 @@ float Sonar::getDistance(){
     float signal = pulseIn(echoPin, HIGH, timeOut);
 
     if (signal == 0){
-        return NO_OBJ_DETECTED;
+        return noObjDetected;
     } else {
         float time = signal / 1000.0 / 1000.0 / 2;
         float distance = time*getSoundVelocity();
         return distance;
     }
-}
-
-bool isDetected(){
-    //TO DO
 }
