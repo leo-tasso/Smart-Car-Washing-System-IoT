@@ -3,7 +3,7 @@
 #include "actuators/Lcd.h"
 
 DisplayFeedback::DisplayFeedback(int period, CarWasher *carWasher, uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows)
-    : Task(period), carWasher(carWasher), colDisplay(lcd_cols), lcd(new Lcd(lcd_Addr, lcd_cols, lcd_rows)) {
+    : Task(period), carWasher(carWasher),  lcd(new Lcd(lcd_Addr, lcd_cols, lcd_rows)), colDisplay(lcd_cols){
     this->lcd->clear();
 }
 
