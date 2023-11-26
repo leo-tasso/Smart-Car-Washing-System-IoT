@@ -3,7 +3,7 @@
 
 #include "ServoMotor.h"
 #include <Arduino.h>
-#include <ServoTimer2.h>
+#include "ServoTimer2.h"
 
 class ServoMotorImpl: public ServoMotor{
     private:
