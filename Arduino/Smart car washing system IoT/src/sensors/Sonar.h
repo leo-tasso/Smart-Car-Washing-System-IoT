@@ -2,6 +2,7 @@
 #define _SONAR_
 
 #include "sensors/proximitySensor.h"
+#include <Arduino.h> 
 #include "config.h"
 
 class Sonar : public ProximitySensor{
