@@ -53,9 +53,10 @@ void ManageAccess::tick() {
         }
         break;
     case CLOSING:
-        if(this->elapsedTimeInState() >= transitionTime)
+        if(this->elapsedTimeInState() >= transitionTime){
             carWasher->gateOpen = false;
             setState(CLOSED);
+        }
         break;
     default:
         break;

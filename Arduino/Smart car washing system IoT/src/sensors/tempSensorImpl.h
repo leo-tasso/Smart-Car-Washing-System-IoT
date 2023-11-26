@@ -9,7 +9,7 @@ private:
     int pin;
 
 public:
-    TempSensor36GZ(int pin);
+    //TempSensor36GZ(int pin);
     virtual float getTemperature();
 };
 
