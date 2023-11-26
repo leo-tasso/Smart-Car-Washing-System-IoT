@@ -6,6 +6,7 @@ extern crate serialport;
 extern crate json;
 extern crate egui;
 
+use egui::IconData;
 use communicator::Communicator;
 use crate::app::SmartCarWashingApp;
 mod app;
@@ -19,14 +20,14 @@ fn main() -> eframe::Result<()> {
     .to_rgba8();
 let (icon_width, icon_height) = icon.dimensions();
     let native_options = eframe::NativeOptions {
-        initial_window_size: Some([250.0, 330.0].into()),
-        min_window_size: Some([250.0, 330.0].into()),
-        max_window_size: Some([250.0, 330.0].into()),
-        icon_data: Some(eframe::IconData {
-            rgba: icon.into_raw(),
-            width: icon_width,
-            height: icon_height,
-        }),
+        viewport: egui::ViewportBuilder::default()
+            .with_inner_size([250.0, 330.0])
+            .with_min_inner_size([250.0, 330.0]).with_max_inner_size([250.0, 330.0])
+            .with_icon(IconData {
+                rgba: icon.into_raw(),
+                width: icon_width,
+                height: icon_height,
+            }),
         ..Default::default()
     };
 

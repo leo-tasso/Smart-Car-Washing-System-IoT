@@ -63,7 +63,7 @@ impl eframe::App for SmartCarWashingApp {
                 ui.menu_button("Menu", |ui| {
                     egui::widgets::global_dark_light_mode_buttons(ui);
                     if ui.button("Quit").clicked() {
-                        _frame.close();
+                        ctx.send_viewport_cmd(egui::ViewportCommand::Close);
                     }
                 });
                 ui.add_space(16.0);
