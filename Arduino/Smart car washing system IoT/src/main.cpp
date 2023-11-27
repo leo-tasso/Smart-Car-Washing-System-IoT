@@ -21,7 +21,7 @@ void setup()
     sched->addTask(new CheckInPresenceDetion(500, &carWasher, PIR_PIN, L1_PIN));
     sched->addTask(new DisplayFeedback(1000, &carWasher, 0x27, 16, 2));
     sched->addTask(new Communicator(1000, &carWasher));
-    sched->addTask(new Washer(50, &carWasher, L3_PIN, START_BUTTON_PIN));
+    sched->addTask(new Washer(50, &carWasher, L2_PIN, L3_PIN, START_BUTTON_PIN));
     sched->addTask(new WashingAreaPresenceDetection(100, &carWasher, SONAR_ECHO_PIN, SONAR_TRIG_PIN));
     sched->addTask(new ManageAccess(100, &carWasher, SERVO_PIN));
 }
