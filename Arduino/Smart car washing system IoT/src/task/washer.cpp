@@ -13,12 +13,12 @@ Washer::Washer(int period,
       carWasher(carWasher),
       l3(new Led(pinL3)),
       button(new ButtonImpl(pinButton, true)) {
-    this->setState(STOPPED);
+    this->setState(WasherStates::STOPPED);
 }
 
 void Washer::tick() {
     switch (this->getState()) {
-        case STOPPED:
+        case WasherStates::STOPPED:
             if (!carWasher->carInWashingArea) {
                 l3->turnOff();
                 if (!carWasher->gateOpen) {
@@ -27,19 +27,19 @@ void Washer::tick() {
             }
             if (carWasher->carInWashingArea && !carWasher->gateOpen && button->isPressed()) {
                 carWasher->washing = true;
-                this->setState(WASHING);
+                this->setState(WasherStates::WASHING);
             }
             break;
-        case MAINT_REQ:
+        case WasherStates::MAINT_REQ:
             if (!carWasher->requiringManteinance) {
                 this->timeInMainteinance += this->elapsedTimeInState();
-                this->setState(WASHING);
+                this->setState(WasherStates::WASHING);
             }
             break;
-        case WASHING:
-            carWasher->washingPercentage = (this->elapsedTimeInState() + this->timeInMainteinance) / N3;
+        case WasherStates::WASHING:
+            carWasher->washingPercentage = (this->elapsedTimeInState() + this->timeInMainteinance) / (N3/100);
             if (this->carWasher->requiringManteinance) {
-                this->setState(MAINT_REQ);
+                this->setState(WasherStates::MAINT_REQ);
             }
             if (this->elapsedTimeInState() + this->timeInMainteinance >= N3) {
                 l3->turnOn();
@@ -49,7 +49,7 @@ void Washer::tick() {
                 this->carWasher->washingPercentage = 0;
                 this->carWasher->washedCars++;
                 this->timeInMainteinance = 0;
-                this->setState(STOPPED);
+                this->setState(WasherStates::STOPPED);
             }
             break;
     }

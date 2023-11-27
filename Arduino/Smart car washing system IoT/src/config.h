@@ -1,6 +1,7 @@
 #ifndef __CONFIG__
 #define __CONFIG__
 
+#define __DEBUG__
 constexpr int TMP_PIN = A5;
 constexpr int PIR_PIN = 4;
 constexpr int L1_PIN = 7;

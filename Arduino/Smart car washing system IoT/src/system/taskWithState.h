@@ -5,6 +5,7 @@
 
 #include "system/task.h"
 
+template <typename T>
 class TaskWithState : public Task {
    public:
     TaskWithState(int period)
@@ -12,12 +13,12 @@ class TaskWithState : public Task {
     }
 
    protected:
-    void setState(int s) {
+    void setState(T s) {
         state = s;
         stateTimestamp = millis();
     }
 
-    int getState() {
+    T getState() {
         return this->state;
     }
 
@@ -26,7 +27,7 @@ class TaskWithState : public Task {
     }
 
    private:
-    int state{0};
+    T state;
     unsigned long stateTimestamp{0};
 };
 

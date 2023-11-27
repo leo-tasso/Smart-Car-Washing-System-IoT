@@ -9,53 +9,53 @@ ManageAccess::ManageAccess(int period, CarWasher *carWasher)
       motor(new ServoMotorImpl(SERVO_PIN)),
       carWasher(carWasher) {
     this->motor->on();
-    setState(CLOSED);
+    setState(GateState::CLOSED);
 }
 
 void ManageAccess::tick() {
     switch (this->getState()){
-    case CLOSED:
+    case GateState::CLOSED:
         if (carWasher->carInCheckIn && !carWasher->carInWashingArea){
-            setState(WAIT);
+            setState(GateState::WAIT);
         } else if (carWasher->washingComplete){
             this->motor->setPosition(90);
-            this->setState(OPENING);
+            this->setState(GateState::OPENING);
         }
         break;
-    case WAIT:
+    case GateState::WAIT:
         if (this->elapsedTimeInState() >= N1){
             this->motor->setPosition(90);
-            setState(OPENING);
+            setState(GateState::OPENING);
         }
         break;
-    case OPENING:
+    case GateState::OPENING:
 	    if (this->elapsedTimeInState() >= transitionTime)
             carWasher->gateOpen = true;
-            setState(OPEN);
+            setState(GateState::OPEN);
         break;
-    case OPEN:
+    case GateState::OPEN:
         if (carWasher->carInWashingArea){
-            setState(WAIT_EXIT);
-        } else setState(WAIT_ENTRING);
+            setState(GateState::WAIT_EXIT);
+        } else setState(GateState::WAIT_ENTRING);
         break;
-    case WAIT_ENTRING:
+    case GateState::WAIT_ENTRING:
         if (carWasher->carInWashingArea){
             this->motor->setPosition(0);
-            setState(CLOSING);
+            setState(GateState::CLOSING);
         }
         break;
-    case WAIT_EXIT:
+    case GateState::WAIT_EXIT:
         if (!carWasher->carInWashingArea){
             if (carWasher->carInCheckIn)
-                setState(WAIT_ENTRING);
+                setState(GateState::WAIT_ENTRING);
             this->motor->setPosition(0);
-            setState(CLOSING);
+            setState(GateState::CLOSING);
         }
         break;
-    case CLOSING:
+    case GateState::CLOSING:
         if(this->elapsedTimeInState() >= transitionTime){
             carWasher->gateOpen = false;
-            setState(CLOSED);
+            setState(GateState::CLOSED);
         }
         break;
     default:

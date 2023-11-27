@@ -5,7 +5,8 @@
 #include "actuators/ServoMotor.h"
 #include "CarWasher.h"
 
-class ManageAccess : public TaskWithState{
+enum class GateState{CLOSED, WAIT, WAIT_EXIT, WAIT_ENTRING, OPENING, OPEN, CLOSING};
+class ManageAccess : public TaskWithState<GateState>{
     private:
         ServoMotor* motor;
         CarWasher *carWasher;
@@ -15,5 +16,4 @@ class ManageAccess : public TaskWithState{
         void tick() override;
 };
 
-enum GateState{CLOSED, WAIT, WAIT_EXIT, WAIT_ENTRING, OPENING, OPEN, CLOSING};
 #endif

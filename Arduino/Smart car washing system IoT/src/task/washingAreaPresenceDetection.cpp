@@ -9,15 +9,15 @@ WashingAreaPresenceDetection::WashingAreaPresenceDetection(int period,
     : TaskWithState(period), 
       sonar(new Sonar(echoPin, trigPin, 20000)), 
       carWasher(carWasher){
-    setState(UNDETECTED);
+    setState(PresenceStates::UNDETECTED);
 }
 
 void WashingAreaPresenceDetection::tick() {
     switch (this->getState()){
-    case UNDETECTED:
+    case PresenceStates::UNDETECTED:
         if (sonar->getDistance() <= minDist && this->elapsedTimeInState() >= N2){
             carWasher->carInWashingArea = true;
-            setState(DETECTED);
+            setState(PresenceStates::DETECTED);
         }
         break;
     /*case WAIT: Da discutere: gestisce caso in cui la macchina entra maesce prima che passi N2
@@ -29,11 +29,11 @@ void WashingAreaPresenceDetection::tick() {
             setState(UNDETECTED);
         }
         break;*/
-    case DETECTED:
+    case PresenceStates::DETECTED:
         if (sonar->getDistance() >= maxDist || sonar->getDistance() == noObjDetected){
             if (this->elapsedTimeInState() >= N4){
                 carWasher->carInWashingArea = false;
-                setState(UNDETECTED);
+                setState(PresenceStates::UNDETECTED);
             }
         }
         break;
