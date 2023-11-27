@@ -1,9 +1,13 @@
 #include "scheduler.h"
 #include <TimerOne.h>
+#include "logger.h"
 
 volatile bool timerFlag;
 
 void timerHandler(void){
+  if(timerFlag==true){
+    logger("!!!TIMER OVERFLOW!!!");
+  }
   timerFlag = true;
 }
 
