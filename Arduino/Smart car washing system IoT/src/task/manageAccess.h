@@ -12,7 +12,7 @@ class ManageAccess : public TaskWithState<GateState>{
         CarWasher *carWasher;
 
     public:
-        ManageAccess(int period, CarWasher *carWasher);
+        ManageAccess(int period, CarWasher *carWasher, int servoPin);
         void tick() override;
 };
 

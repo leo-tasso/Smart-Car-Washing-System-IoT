@@ -4,9 +4,9 @@
 #include "CarWasher.h"
 #include "config.h"
 
-ManageAccess::ManageAccess(int period, CarWasher *carWasher) 
+ManageAccess::ManageAccess(int period, CarWasher *carWasher, int servoPin) 
     : TaskWithState(period), 
-      motor(new ServoMotorImpl(SERVO_PIN)),
+      motor(new ServoMotorImpl(servoPin)),
       carWasher(carWasher) {
     this->motor->on();
     setState(GateState::CLOSED);
