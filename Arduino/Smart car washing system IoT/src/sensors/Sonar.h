@@ -8,13 +8,13 @@
 class Sonar : public ProximitySensor{
     public:
         Sonar(int echoPin, int trigPin, long maxTime);
-        float getDistance();
-        void setTemperature(float temp);
+        double getDistance();
+        void setTemperature(double temp);
 
     private:
-        float getSoundVelocity();
+        double getSoundVelocity();
         int echoPin, trigPin;
-        float temperature;
+        double temperature;
         long timeOut; //if the signal don't come back in time the object is too far away = no object detected
 };
 

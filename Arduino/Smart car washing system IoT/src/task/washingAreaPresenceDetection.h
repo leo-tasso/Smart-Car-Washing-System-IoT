@@ -11,7 +11,7 @@ private:
     CarWasher *carWasher;
 
 public:
-    WashingAreaPresenceDetection(int period, CarWasher *carWasher, int pinSonar);
+    WashingAreaPresenceDetection(int period, CarWasher *carWasher, int echoPin, int trigPin);
     void tick() override;
 
 };

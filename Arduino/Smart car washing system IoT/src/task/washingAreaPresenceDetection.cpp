@@ -4,9 +4,10 @@
 
 WashingAreaPresenceDetection::WashingAreaPresenceDetection(int period, 
                                                            CarWasher *carWasher, 
-                                                           int pinSonar) 
+                                                           int echoPin,
+                                                           int trigPin) 
     : TaskWithState(period), 
-      sonar(new Sonar(SONAR_ECHO_PIN, SONAR_TRIG_PIN, 1000)), 
+      sonar(new Sonar(echoPin, trigPin, 20000)), 
       carWasher(carWasher){
     setState(UNDETECTED);
 }
