@@ -1,6 +1,7 @@
 #include "task/washingAreaPresenceDetection.h"
 #include "sensors/Sonar.h"
 #include "config.h"
+#include "system/logger.h"
 
 WashingAreaPresenceDetection::WashingAreaPresenceDetection(int period, 
                                                            CarWasher *carWasher, 
@@ -13,6 +14,7 @@ WashingAreaPresenceDetection::WashingAreaPresenceDetection(int period,
 }
 
 void WashingAreaPresenceDetection::tick() {
+    logger(this->sonar->getDistance());
     switch (this->getState()){
     case PresenceStates::UNDETECTED:
         if (sonar->getDistance() <= minDist && this->elapsedTimeInState() >= N2){
