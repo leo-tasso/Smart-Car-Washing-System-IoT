@@ -5,7 +5,7 @@ class CarWasher {
    public:
     bool carInCheckIn;
     bool carInWashingArea;
-    double temp;
+    float temp;
     bool requiringManteinance;
     bool gateOpen;
     bool washing;

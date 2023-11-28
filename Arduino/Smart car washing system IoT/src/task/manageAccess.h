@@ -6,6 +6,7 @@
 #include "CarWasher.h"
 
 enum class GateState{CLOSED, WAIT, WAIT_EXIT, WAIT_ENTRING, OPENING, OPEN, CLOSING};
+
 class ManageAccess : public TaskWithState<GateState>{
     private:
         ServoMotor* motor;
