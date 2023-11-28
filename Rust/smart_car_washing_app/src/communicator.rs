@@ -9,6 +9,7 @@ use egui::TextBuffer;
 pub struct InnerCommunicator {
     temp: f32,
     washing_percentage: i8,
+    washed_cars: i8,
     car_in_check_in: bool,
     car_in_washing: bool,
     gate_open: bool,
@@ -30,6 +31,7 @@ impl Default for Communicator {
             inner: Arc::new(Mutex::new(InnerCommunicator {
                 temp: 0.0,
                 washing_percentage: 0,
+                washed_cars: 0,
                 car_in_check_in: false,
                 car_in_washing: false,
                 gate_open: false,
@@ -73,6 +75,9 @@ impl Communicator {
 
     pub fn washing_percentage(&self) -> i8 {
         self.inner.lock().washing_percentage
+    }
+    pub fn washed_cars(&self) -> i8 {
+        self.inner.lock().washed_cars
     }
 
 

@@ -143,6 +143,12 @@ impl eframe::App for SmartCarWashingApp {
                     );
                 }
             });
+            if self.communicator.maintenance_req() {
+                ui.colored_label(
+                    Color32::RED,
+                    "⚠️Temperature exceeded, fix please⚠️"
+                );
+            }
             if ui
                 .add_enabled(
                     self.communicator.connected() && self.communicator.maintenance_req(),
@@ -152,9 +158,9 @@ impl eframe::App for SmartCarWashingApp {
             {
                 self.communicator.maintenance_done();
             };
-            /*ui.heading(
-                "Active scenario: ".to_owned() + self.communicator.active_scenario().as_str(),
-            );*/
+            ui.heading(
+                "Washed Cars: ".to_owned() + self.communicator.washed_cars().to_string().as_str(),
+            );
             ui.add(
                 Gauge::new(self.communicator.temp(), 0.0..=37.0, 200.0, Color32::GREEN)
                     .text("Sys Temp"),
