@@ -1,5 +1,6 @@
 use communicator::Communicator;
 use eframe::epaint::Color32;
+use egui::vec2;
 use egui_gauge::Gauge;
 
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
@@ -112,6 +113,36 @@ impl eframe::App for SmartCarWashingApp {
                     self.communicator.stop()
                 };
             });
+            ui.horizontal(|ui| {
+                ui.add(
+                    if self.communicator.car_in_check_in() {
+                    egui::Image::new(egui::include_image!("../res/car.png"))
+                        .fit_to_fraction(vec2(7.0,7.0))}
+                        else {                     egui::Image::new(egui::include_image!("../res/Empty.png"))
+                            .fit_to_fraction(vec2(7.0,7.0))}
+                );
+                ui.add(
+                    if self.communicator.gate_open() {
+                        egui::Image::new(egui::include_image!("../res/open bar.png"))
+                            .fit_to_fraction(vec2(7.0,7.0))}
+                    else {                     egui::Image::new(egui::include_image!("../res/closed bar.png"))
+                        .fit_to_fraction(vec2(1.0,1.0))}
+                );
+                ui.add(
+                    if self.communicator.car_in_washing() {
+                        egui::Image::new(egui::include_image!("../res/car.png"))
+                            .fit_to_fraction(vec2(1.0,1.0))}
+                    else {
+                        egui::Image::new(egui::include_image!("../res/Empty.png"))
+                        .fit_to_fraction(vec2(1.0,1.0))}
+                );
+                if self.communicator.washing() {
+                    ui.add(
+                        egui::Image::new(egui::include_image!("../res/water.png"))
+                            .fit_to_fraction(vec2(1.0, 1.0))
+                    );
+                }
+            });
             if ui
                 .add_enabled(
                     self.communicator.connected() && self.communicator.maintenance_req(),
@@ -121,9 +152,9 @@ impl eframe::App for SmartCarWashingApp {
             {
                 self.communicator.maintenance_done();
             };
-            ui.heading(
+            /*ui.heading(
                 "Active scenario: ".to_owned() + self.communicator.active_scenario().as_str(),
-            );
+            );*/
             ui.add(
                 Gauge::new(self.communicator.temp(), 0.0..=37.0, 200.0, Color32::GREEN)
                     .text("Sys Temp"),

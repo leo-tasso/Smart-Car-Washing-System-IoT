@@ -15,7 +15,7 @@ mod communicator;
 fn main() -> eframe::Result<()> {
     env_logger::init(); // Log to stderr (if you run with `RUST_LOG=debug`).
 
-    let icon = image::open("smartCarWash.png")
+    let icon = image::open("res/smartCarWash.png")
     .expect("Failed to open icon path")
     .to_rgba8();
 let (icon_width, icon_height) = icon.dimensions();

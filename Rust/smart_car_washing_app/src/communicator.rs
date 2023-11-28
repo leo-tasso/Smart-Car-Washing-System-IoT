@@ -8,8 +8,12 @@ use egui::TextBuffer;
 
 pub struct InnerCommunicator {
     temp: f32,
+    washing_percentage: i8,
+    car_in_check_in: bool,
+    car_in_washing: bool,
+    gate_open: bool,
+    washing: bool,
     maintenance_req: bool,
-    active_scenario: String,
     connected_port: Option<Box<dyn SerialPort>>,
 }
 
@@ -25,8 +29,12 @@ impl Default for Communicator {
         Self {
             inner: Arc::new(Mutex::new(InnerCommunicator {
                 temp: 0.0,
+                washing_percentage: 0,
+                car_in_check_in: false,
+                car_in_washing: false,
+                gate_open: false,
+                washing: false,
                 maintenance_req: false,
-                active_scenario: "".to_string(),
                 connected_port: None,
             })),
             read_thread: None,
@@ -48,9 +56,25 @@ impl Communicator {
     pub fn maintenance_req(&self) -> bool {
         self.inner.lock().maintenance_req
     }
-    pub fn active_scenario(&self) -> String {
-        self.inner.lock().active_scenario.clone()
+
+    pub fn car_in_check_in(&self) -> bool { self.inner.lock().car_in_check_in   }
+
+    pub fn car_in_washing(&self) -> bool {
+        self.inner.lock().car_in_washing
     }
+
+    pub fn gate_open(&self) -> bool {
+        self.inner.lock().gate_open
+    }
+
+    pub fn washing(&self) -> bool {
+        self.inner.lock().washing
+    }
+
+    pub fn washing_percentage(&self) -> i8 {
+        self.inner.lock().washing_percentage
+    }
+
 
     pub fn connect(&mut self, path: String) {
         let local_self = self.inner.clone();
@@ -97,6 +121,26 @@ impl Communicator {
                                 match res_json["temp"].as_f32() {
                                     None => {}
                                     Some(t) => { local_self.lock().temp = t }
+                                }
+                                match res_json["carInCheckIn"].as_bool() {
+                                    None => {}
+                                    Some(t) => { local_self.lock().car_in_check_in = t }
+                                }
+                                match res_json["carInWashingArea"].as_bool() {
+                                    None => {}
+                                    Some(t) => { local_self.lock().car_in_washing = t }
+                                }
+                                match res_json["washing"].as_bool() {
+                                    None => {}
+                                    Some(t) => { local_self.lock().washing = t }
+                                }
+                                match res_json["gateOpen"].as_bool() {
+                                    None => {}
+                                    Some(t) => { local_self.lock().gate_open = t }
+                                }
+                                match res_json["washingPercentage"].as_i8() {
+                                    None => {}
+                                    Some(t) => { local_self.lock().washing_percentage = t }
                                 }
                             }
                             // Clear the buffer for the next message
