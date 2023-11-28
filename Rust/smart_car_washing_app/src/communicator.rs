@@ -77,8 +77,8 @@ impl Communicator {
 
 
     pub fn connect(&mut self, path: String) {
+        *self.stop_flag.lock() = false;
         let local_self = self.inner.clone();
-
         local_self.lock().connected_port = Some(
             serialport::new(path, 9600)
                 .open()
