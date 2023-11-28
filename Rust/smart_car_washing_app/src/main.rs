@@ -22,7 +22,8 @@ let (icon_width, icon_height) = icon.dimensions();
     let native_options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
             .with_inner_size([250.0, 330.0])
-            .with_min_inner_size([250.0, 330.0]).with_max_inner_size([250.0, 330.0])
+            .with_min_inner_size([250.0, 330.0])
+            //.with_max_inner_size([250.0, 330.0])
             .with_icon(IconData {
                 rgba: icon.into_raw(),
                 width: icon_width,
@@ -42,6 +43,9 @@ let (icon_width, icon_height) = icon.dimensions();
     eframe::run_native(
         "Smart CarWashing Console",
         native_options,
-        Box::new(|cc|Box::new(SmartCarWashingApp::new(cc, communicator))),
+        Box::new(|cc|{
+            egui_extras::install_image_loaders(&cc.egui_ctx);
+            Box::new(SmartCarWashingApp::new(cc, communicator))
+        }),
     )
 }
