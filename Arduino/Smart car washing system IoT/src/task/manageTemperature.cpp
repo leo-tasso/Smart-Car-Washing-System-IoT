@@ -7,8 +7,8 @@ ManageTemperature::ManageTemperature(int period,
                                      CarWasher *carWasher, 
                                      int pin) 
     : Task(period), 
-      carWasher(carWasher), 
-      temperature(new TempSensor36(pin, vcc)){
+      temperature(new TempSensor36(pin, vcc)), 
+      carWasher(carWasher){
 }
 
 void ManageTemperature::tick(){

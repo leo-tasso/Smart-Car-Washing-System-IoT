@@ -8,7 +8,7 @@
 class Sonar : public ProximitySensor{
     public:
         Sonar(int echoPin, int trigPin, long maxTime);
-        double getDistance();
+        double getDistance() override;
         void setTemperature(double temp);
 
     private:
