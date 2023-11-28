@@ -124,7 +124,7 @@ impl eframe::App for SmartCarWashingApp {
                 ui.add(
                     if self.communicator.gate_open() {
                         egui::Image::new(egui::include_image!("../res/open bar.png"))
-                            .fit_to_fraction(vec2(7.0,7.0))}
+                            .fit_to_fraction(vec2(1.0,1.0))}
                     else {                     egui::Image::new(egui::include_image!("../res/closed bar.png"))
                         .fit_to_fraction(vec2(1.0,1.0))}
                 );
