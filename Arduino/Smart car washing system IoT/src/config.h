@@ -18,7 +18,7 @@ constexpr int N1 = 1000;          // ms
 constexpr int N2 = 500;           // ms
 constexpr int N3 = 15000;         // ms washing time
 constexpr int N4 = 5000;          // ms exit time
-constexpr int transitionTime = 150;  // ms opening/closing time of the gate
+constexpr int transitionTime = 500;  // ms opening/closing time of the gate
 constexpr double minDist = 0.07; //100cm = 1m
 constexpr double maxDist = 0.09; //300cm = 3m
 constexpr int noObjDetected = -1;
