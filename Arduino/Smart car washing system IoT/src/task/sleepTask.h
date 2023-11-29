@@ -5,7 +5,7 @@
 #include "system/scheduler.h"
 
 class SleepTask : public Task {
-    unsigned long timer{0};
+    unsigned long timer;
     CarWasher* carWasher;
     int wakePin;
 
