@@ -158,6 +158,13 @@ impl eframe::App for SmartCarWashingApp {
             {
                 self.communicator.maintenance_done();
             };
+            let mut bar_color = Color32::BLUE;
+            if self.communicator.maintenance_req() {
+                bar_color = Color32::RED;
+            }
+            if self.communicator.washing() {
+            ui.add(egui::ProgressBar::new((self.communicator.washing_percentage() as f32)/100.0).show_percentage().animate(true).fill(bar_color));
+            }
             ui.heading(
                 "Washed Cars: ".to_owned() + self.communicator.washed_cars().to_string().as_str(),
             );
