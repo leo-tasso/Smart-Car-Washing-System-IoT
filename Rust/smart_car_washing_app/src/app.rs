@@ -146,7 +146,7 @@ impl eframe::App for SmartCarWashingApp {
             if self.communicator.maintenance_req() {
                 ui.colored_label(
                     Color32::RED,
-                    "⚠️Temperature exceeded, fix please⚠️"
+                    "⚠Temperature exceeded, fix please⚠"
                 );
             }
             if ui
@@ -169,7 +169,7 @@ impl eframe::App for SmartCarWashingApp {
                 "Washed Cars: ".to_owned() + self.communicator.washed_cars().to_string().as_str(),
             );
             ui.add(
-                Gauge::new(self.communicator.temp(), 0.0..=37.0, 200.0, Color32::GREEN)
+                Gauge::new((self.communicator.temp()).round(), 0.0..=37.0, 200.0, Color32::GREEN)
                     .text("Sys Temp"),
             );
             ui.separator();

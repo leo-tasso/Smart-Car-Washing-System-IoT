@@ -143,6 +143,10 @@ impl Communicator {
                                     None => {}
                                     Some(t) => { local_self.lock().gate_open = t }
                                 }
+                                match res_json["requiringMaintenance"].as_bool() {
+                                    None => {}
+                                    Some(t) => { local_self.lock().maintenance_req = t }
+                                }
                                 match res_json["washingPercentage"].as_i8() {
                                     None => {}
                                     Some(t) => { local_self.lock().washing_percentage = t }
