@@ -4,6 +4,7 @@
 
 #include "CarWasher.h"
 #include "config.h"
+#include "system/logger.h"
 
 Washer::Washer(int period,
                CarWasher *carWasher,
@@ -46,23 +47,18 @@ void Washer::tick() {
             }
             break;
         case WasherStates::MAINT_REQ:
-            if (!carWasher->requiringManteinance) {
-                this->timeInMainteinance += this->elapsedTimeInState();
+            // logger("maintReq");
+            if (!this->carWasher->requiringManteinance) {
                 this->setState(WasherStates::WASHING);
             }
             break;
         case WasherStates::WASHING:
-            carWasher->washingPercentage = (this->elapsedTimeInState() + this->timeInMainteinance) / (N3 / 100);
+            carWasher->washingPercentage = (this->elapsedTimeInState() + this->totalWashTime) / (N3 / 100);
             if (this->elapsedTimeInState() > PERIOD_L2_WASHING + ledTimer) {
                 l2->isOn() ? l2->turnOff() : l2->turnOn();
                 ledTimer = this->elapsedTimeInState();
             }
-            if (this->carWasher->requiringManteinance) {
-                this->l2->turnOff();
-                ledTimer = 0;
-                this->setState(WasherStates::MAINT_REQ);
-            }
-            if (this->elapsedTimeInState() + this->timeInMainteinance >= N3) {
+            if (this->elapsedTimeInState() + this->totalWashTime >= N3) {
                 l3->turnOn();
                 this->l2->turnOff();
                 ledTimer = 0;
@@ -70,8 +66,14 @@ void Washer::tick() {
                 this->carWasher->washingComplete = true;
                 this->carWasher->washingPercentage = 0;
                 this->carWasher->washedCars++;
-                this->timeInMainteinance = 0;
+                this->totalWashTime = 0;
                 this->setState(WasherStates::STOPPED);
+            }
+            if (this->carWasher->requiringManteinance) {
+                this->l2->turnOff();
+                ledTimer = 0;
+                this->totalWashTime += this->elapsedTimeInState();
+                this->setState(WasherStates::MAINT_REQ);
             }
             break;
     }

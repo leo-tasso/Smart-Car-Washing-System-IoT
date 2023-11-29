@@ -14,7 +14,7 @@ class Washer : public TaskWithState<WasherStates>{
     Led * l2;
     Led * l3;
     Button * button;
-    unsigned long timeInMainteinance{0};
+    unsigned long totalWashTime{0};
     unsigned long ledTimer{0};
 
    public:

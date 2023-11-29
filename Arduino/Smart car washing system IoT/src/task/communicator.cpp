@@ -4,6 +4,7 @@
 #include <ArduinoJson.h>
 
 #include "CarWasher.h"
+#include "system/logger.h"
 
 Communicator::Communicator(int period, CarWasher *carWasher)
     : Task(period),
@@ -28,6 +29,11 @@ void Communicator::tick() {
         Serial.flush();
     }
     if (Serial.available() > 0) {
-        carWasher->requiringManteinance = false;
+        String recived = Serial.readStringUntil('!');
+        //logger(recived);
+        if (recived == "maintenanceDone") {
+            carWasher->requiringManteinance = false;
+            //logger("Arduino reciving");
+        }
     }
 };

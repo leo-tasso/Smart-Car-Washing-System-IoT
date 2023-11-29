@@ -184,7 +184,7 @@ impl Communicator {
             .connected_port
             .as_mut()
             .unwrap()
-            .write_all("MaintenanceDone".as_bytes())
+            .write_all("maintenanceDone!".as_bytes())
             .expect("Failed to write to serial port");
     }
 }
