@@ -8,7 +8,8 @@
 class Lcd: public Display{
 private:
 LiquidCrystal_I2C * lcd;
-uint8_t col{0};
+uint8_t active_row{0};
+uint8_t total_cols;
 
 public:
     Lcd(uint8_t lcd_Addr, uint8_t lcd_cols, uint8_t lcd_rows);
