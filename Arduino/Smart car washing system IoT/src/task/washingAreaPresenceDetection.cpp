@@ -22,15 +22,6 @@ void WashingAreaPresenceDetection::tick() {
             setState(PresenceStates::DETECTED);
         }
         break;
-    /*case WAIT: Da discutere: gestisce caso in cui la macchina entra maesce prima che passi N2
-        if (sonar->getDistance() <= minDist){
-            if(this->elapsedTimeInState() >= N2)
-                carWasher->carInWashingArea = true;
-                setState(DETECTED);
-        } else {
-            setState(UNDETECTED);
-        }
-        break;*/
     case PresenceStates::DETECTED:
         if (sonar->getDistance() >= maxDist || sonar->getDistance() == noObjDetected){
             if (this->elapsedTimeInState() >= N4){
