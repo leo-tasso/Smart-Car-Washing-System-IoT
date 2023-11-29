@@ -6,7 +6,7 @@ volatile bool timerFlag;
 
 void timerHandler(void){
   if(timerFlag==true){
-    logger("!!!TIMER OVERFLOW!!!");
+    logger("!!!SCHEDULER OVERRUN!!!");
   }
   timerFlag = true;
 }
@@ -31,11 +31,10 @@ bool Scheduler::addTask(Task* task){
   
 void Scheduler::schedule(){   
   while (!timerFlag){}
-  timerFlag = false;
-
   for (int i = 0; i < nTasks; i++){
         if (taskList[i]->updateAndCheckTime(basePeriod)){
           taskList[i]->tick();
         }
   }
+  timerFlag = false;
 }
