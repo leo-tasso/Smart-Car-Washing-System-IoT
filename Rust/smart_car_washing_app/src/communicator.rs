@@ -85,7 +85,7 @@ impl Communicator {
         *self.stop_flag.lock() = false;
         let local_self = self.inner.clone();
         local_self.lock().connected_port = Some(
-            serialport::new(path, 9600)
+            serialport::new(path, 115200)
                 .open()
                 .expect("Failed to open port"),
         );

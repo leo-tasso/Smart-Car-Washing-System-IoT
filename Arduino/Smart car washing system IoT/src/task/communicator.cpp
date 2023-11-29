@@ -8,7 +8,7 @@
 Communicator::Communicator(int period, CarWasher *carWasher)
     : Task(period),
       carWasher(carWasher) {
-    Serial.begin(9600);
+    Serial.begin(115200);
 }
 
 void Communicator::tick() {
