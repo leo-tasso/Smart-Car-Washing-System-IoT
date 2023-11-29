@@ -9,9 +9,9 @@ DisplayFeedback::DisplayFeedback(int period, CarWasher *carWasher, uint8_t lcd_A
 
 void DisplayFeedback::tick() {
     if (this->carWasher->requiringManteinance) {
-        this->lcd->show("Detected a Problem - Please Wait");
+        this->lcd->show("Detected ProblemPlease Wait");
     } else if (this->carWasher->washingComplete && this->carWasher->gateOpen) {
-        this->lcd->show("Washing complete you can leave");
+        this->lcd->show("Washing completeyou can leave");
     } else if (this->carWasher->washing || this->carWasher->washingComplete) {
         String message = "Washing...      ";
         if (carWasher->washingPercentage != 0) {
@@ -24,7 +24,7 @@ void DisplayFeedback::tick() {
     } else if (this->carWasher->carInWashingArea) {
         this->lcd->show("Ready to Wash");
     } else if (this->carWasher->gateOpen) {
-        this->lcd->show("Proceed to the Washing Area");
+        this->lcd->show("Proceed to the  Washing Area");
     } else {
         this->lcd->show("Welcome");
     }
