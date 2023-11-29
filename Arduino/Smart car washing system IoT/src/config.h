@@ -26,7 +26,7 @@ constexpr double minDist = 0.07;     // 100cm = 1m
 constexpr double maxDist = 0.09;     // 300cm = 3m
 constexpr int noObjDetected = -1;
 constexpr int MAXTEMP = 40;
-constexpr unsigned int PERIOD_L2_GATE = 100;
+constexpr unsigned int PERIOD_L2_GATE = 300;
 constexpr unsigned int PERIOD_L2_WASHING = 500;
 
 #endif
