@@ -151,6 +151,10 @@ impl Communicator {
                                     None => {}
                                     Some(t) => { local_self.lock().washing_percentage = t }
                                 }
+                                match res_json["washedCars"].as_i8() {
+                                    None => {}
+                                    Some(t) => { local_self.lock().washed_cars = t }
+                                }
                             }
                             // Clear the buffer for the next message
                             serial_buffer.clear();
