@@ -18,7 +18,7 @@ ManageTemperature::ManageTemperature(int period,
 void ManageTemperature::tick() {
     carWasher->temp = (float)temperature->getTemperature();
     if (carWasher->washing) {
-        this->state = this->carWasher->temp >= MAXTEMP ? ACCEPTABLE : UNACCEPTABLE;
+        this->state = this->carWasher->temp < MAXTEMP ? ACCEPTABLE : UNACCEPTABLE;
         if (this->state == UNACCEPTABLE) {
             carWasher->requiringManteinance = true;
         }
