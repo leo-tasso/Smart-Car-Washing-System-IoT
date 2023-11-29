@@ -21,9 +21,9 @@ fn main() -> eframe::Result<()> {
 let (icon_width, icon_height) = icon.dimensions();
     let native_options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
-            .with_inner_size([300.0, 500.0])
-            .with_min_inner_size([300.0, 500.0])
-            .with_max_inner_size([300.0, 500.0])
+            .with_inner_size([340.0, 500.0])
+            .with_min_inner_size([340.0, 500.0])
+            .with_max_inner_size([340.0, 500.0])
             .with_icon(IconData {
                 rgba: icon.into_raw(),
                 width: icon_width,
