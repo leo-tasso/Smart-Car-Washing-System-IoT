@@ -16,10 +16,16 @@ void CheckInPresenceDetion::tick() {
         case CheckInStates::DETECTED:
             carWasher->carInCheckIn = true;
             l1->turnOn();
+            if (!detector->isDetected()) {
+                this->setState(CheckInStates::UNDETECTED);
+            }
             break;
         case CheckInStates::UNDETECTED:
             l1->turnOff();
             carWasher->carInCheckIn = false;
+            if (detector->isDetected()) {
+                this->setState(CheckInStates::DETECTED);
+            }
             break;
     }
 };
