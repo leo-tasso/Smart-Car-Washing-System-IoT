@@ -4,7 +4,7 @@
 class TempSensor{
 
 public:
-    virtual float getTemperature();
+    virtual double getTemperature();
 };
 
 

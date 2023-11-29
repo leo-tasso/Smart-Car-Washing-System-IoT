@@ -6,9 +6,9 @@ TempSensor36::TempSensor36(int pin, float aref) : pin(pin), aref(aref){
     pinMode(pin, INPUT);
 }
 
-float TempSensor36::getTemperature(){
+double TempSensor36::getTemperature(){
     int value = analogRead(pin);
-    float valueInVolt = (value/1024.0)*aref;
-    float valueInCelsius = (valueInVolt-.5)*100;
+    double valueInVolt = (value/1024.0)*aref;
+    double valueInCelsius = (valueInVolt-.5)*100;
     return valueInCelsius;
 }

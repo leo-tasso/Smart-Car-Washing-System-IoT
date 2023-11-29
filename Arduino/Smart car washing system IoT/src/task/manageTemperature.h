@@ -9,7 +9,7 @@ class ManageTemperature : public Task{
     private:
         TempSensor *temperature;
         CarWasher *carWasher;
-        enum { ACCETTABILE, UNACCETTABILE} state;
+        enum { ACCEPTABLE, UNACCEPTABLE} state{ACCEPTABLE};
 
     public:
         ManageTemperature(int period, CarWasher *carWasher, int pin);

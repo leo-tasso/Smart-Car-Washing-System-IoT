@@ -29,7 +29,7 @@ double Sonar::getDistance(){
     delayMicroseconds(5);
     digitalWrite(trigPin,LOW);
 
-    double signal = pulseIn(echoPin, HIGH, timeOut);
+    double signal = (double)(echoPin, HIGH, timeOut);
 
     if (signal == 0){
         return noObjDetected;

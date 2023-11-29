@@ -7,10 +7,10 @@ class TempSensor36: public TempSensor {
 
     public:
         TempSensor36(int pin, float aref);
-        virtual float getTemperature();
+        virtual double getTemperature();
     private:
         int pin;
-        float aref; //Vcc
+        double aref; //Vcc
 };
 
 #endif
