@@ -1,5 +1,7 @@
 #include "task/checkInPresenceDetection.h"
 
+#include <avr/sleep.h>
+
 CheckInPresenceDetion::CheckInPresenceDetion(int period,
                                              CarWasher *carWasher,
                                              int pinPir,
@@ -26,6 +28,15 @@ void CheckInPresenceDetion::tick() {
             if (detector->isDetected()) {
                 this->setState(CheckInStates::DETECTED);
             }
+            /*
+            if (this->elapsedTimeInState() > SLEEP_TIME && !this->carWasher->carInWashingArea && !this->carWasher->gateOpen) {
+                set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+                sleep_enable();
+                sleep_mode();
+                Serial.println("WAKE UP");
+                sleep_disable();
+            }
+            */
             break;
     }
 };
