@@ -11,6 +11,7 @@ ManageAccess::ManageAccess(int period, CarWasher *carWasher, int servoPin)
       motor(new ServoMotorImpl(servoPin)),
       carWasher(carWasher) {
     this->motor->on();
+    this->motor->setPosition(ANGLE_CLOSED);
     setState(GateState::CLOSED);
 }
 
@@ -20,13 +21,13 @@ void ManageAccess::tick() {
             if (carWasher->carInCheckIn && !carWasher->carInWashingArea) {
                 setState(GateState::WAIT);
             } else if (carWasher->washingComplete) {
-                this->motor->setPosition(90);
+                this->motor->setPosition(ANGLE_OPENED);
                 this->setState(GateState::OPENING);
             }
             break;
         case GateState::WAIT:
             if (this->elapsedTimeInState() >= N1) {
-                this->motor->setPosition(90);
+                this->motor->setPosition(ANGLE_OPENED);
                 setState(GateState::OPENING);
             }
             break;
@@ -45,13 +46,13 @@ void ManageAccess::tick() {
             break;
         case GateState::WAIT_ENTRING:
             if (carWasher->carInWashingArea) {
-                this->motor->setPosition(0);
+                this->motor->setPosition(ANGLE_CLOSED);
                 setState(GateState::CLOSING);
             }
             break;
-        case GateState::WAIT_EXIT:
-            if (!carWasher->carInWashingArea) {
-                this->motor->setPosition(0);
+        case GateState::WAIT_EXIT: // Wait that the car exit also from the check in area.
+            if (!carWasher->carInWashingArea && !carWasher->carInCheckIn) { 
+                this->motor->setPosition(ANGLE_CLOSED);
                 setState(GateState::CLOSING);
             }
             break;
