@@ -10,7 +10,7 @@ constexpr float vcc = 5.0;
 ManageTemperature::ManageTemperature(int period,
                                      CarWasher *carWasher,
                                      int pin)
-    : Task(period),
+    : TaskWithState(period),
       temperature(new TempSensor36(pin, vcc)),
       carWasher(carWasher) {
 }
@@ -18,8 +18,8 @@ ManageTemperature::ManageTemperature(int period,
 void ManageTemperature::tick() {
     carWasher->temp = (float)temperature->getTemperature();
     if (carWasher->washing) {
-        this->state = this->carWasher->temp < MAXTEMP ? ACCEPTABLE : UNACCEPTABLE;
-        if (this->state == UNACCEPTABLE) {
+        this->setState( this->carWasher->temp >= MAXTEMP ? TemperatureState::ACCEPTABLE : TemperatureState::UNACCEPTABLE);
+        if (this->getState() == TemperatureState::UNACCEPTABLE){
             carWasher->requiringManteinance = true;
         }
     }
