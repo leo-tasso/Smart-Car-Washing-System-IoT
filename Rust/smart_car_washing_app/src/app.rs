@@ -25,7 +25,7 @@ impl Default for SmartCarWashingApp {
             // Example stuff:
             label: "Hello World!".to_owned(),
             temp: 2.7,
-            selected_port: 1,
+            selected_port: 0,
             communicator: Default::default(),
         }
     }
