@@ -20,7 +20,10 @@ To dampen this effect it is possible to add decoupling capacitors (10-100 uF) to
 The program is managed by a syncronous scheduler, it is triggered by a timer and launches non cooperative tasks.
 Each task period has been chosen accordingly to its operative requirements, and is a multiple of the base period of the scheduler.
 Some empiric tests have been made to ensure that no overrun happens in any scenario.
-
+The work tree of the program is divided in:
+Sensors and actuators, containing interfaces (abstract classes) and implementations for the devices.
+System, containing the scheduler and the task interface,
+Task, containing all the tasks. 
 \section{FSM diagrams}
 \subsection{General diagram}
 \subsection{Tasks}
