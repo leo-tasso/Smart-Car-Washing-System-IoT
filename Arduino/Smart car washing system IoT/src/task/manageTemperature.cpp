@@ -26,12 +26,18 @@ void ManageTemperature::tick() {
     float averageTemp = calculateAverageTemperature();
     carWasher->temp = averageTemp;
     if (carWasher->washing) {
-        this->setState(
-            (this->carWasher->temp < MAXTEMP && this->elapsedTimeInState() >= N5) ? 
-            TemperatureState::ACCEPTABLE : TemperatureState::UNACCEPTABLE
-        );
-        if (this->getState() == TemperatureState::UNACCEPTABLE) {
-            carWasher->requiringManteinance = true;
+        switch (this->getState()) {
+            case TemperatureState::ACCEPTABLE:
+                if (this->carWasher->temp < MAXTEMP && this->elapsedTimeInState() >= N5) {
+                    carWasher->requiringManteinance = true;
+                    this->setState(TemperatureState::UNACCEPTABLE);
+                }
+                break;
+            case TemperatureState::UNACCEPTABLE:
+                if (this->carWasher->temp >= MAXTEMP) {
+                    this->setState(TemperatureState::ACCEPTABLE);
+                }
+                break;
         }
     }
 }
