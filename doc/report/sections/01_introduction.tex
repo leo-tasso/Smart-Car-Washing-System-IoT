@@ -2,16 +2,28 @@
 The circuit schematic is as follows:\\
 
 \begin{center}
-\begin{tabular}{ c c }
-TMP_PIN && A1\\
-PIR_PIN && 2\\
-L1_PIN && 7\\
-L2_PIN && 6\\
-L3_PIN && 5\\
-SERVO_PIN && 3\\    
-SONAR_TRIG_PIN && 11\\
-SONAR_ECHO_PIN && 12
-\end{tabular}
+    \begin{tabular}{|c|c|}
+        \hline
+        Device             & pinout \\
+        \hline
+        \hline
+        Temperature sensor & A1     \\
+        \hline
+        Pir                & 2      \\
+        \hline
+        L1                 & 7      \\
+        \hline
+        L2                 & 6      \\
+        \hline
+        L3                 & 5      \\
+        \hline
+        Servo              & 3      \\
+        \hline
+        Sonar trig         & 11     \\
+        \hline
+        Ssonar echo        & 12     \\
+        \hline
+    \end{tabular}
 \end{center}
 Since the servo motor might draw more current than the 150mA offered by arduino pins it's advisable to feed the servo with external power.
 All the elements attached to the power line create noise that hinder the analog temperature sensor's readings.\\
@@ -23,7 +35,7 @@ Some empiric tests have been made to ensure that no overrun happens in any scena
 The work tree of the program is divided in:
 Sensors and actuators, containing interfaces (abstract classes) and implementations for the devices.
 System, containing the scheduler and the task interface,
-Task, containing all the tasks. 
+Task, containing all the tasks.
 \section{FSM diagrams}
 \subsection{General diagram}
 \subsection{Tasks}
