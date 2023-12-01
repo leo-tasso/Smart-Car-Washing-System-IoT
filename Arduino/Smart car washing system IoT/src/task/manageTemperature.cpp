@@ -13,14 +13,30 @@ ManageTemperature::ManageTemperature(int period,
     : TaskWithState(period),
       temperature(new TempSensor36(pin, vcc)),
       carWasher(carWasher) {
+    for (int i = 0; i < 10; i++) {
+        this->temperatureHistory[i] = 0.0;
+    }
+    this->currentIndex = 0;
 }
 
 void ManageTemperature::tick() {
-    carWasher->temp = (float)temperature->getTemperature();
+    float currentTemp = (float)temperature->getTemperature();
+    temperatureHistory[currentIndex] = currentTemp;
+    currentIndex = (currentIndex + 1) % AVG_VALUES;
+    float averageTemp = calculateAverageTemperature();
+    carWasher->temp = averageTemp;
     if (carWasher->washing) {
-        this->setState( this->carWasher->temp < MAXTEMP ? TemperatureState::ACCEPTABLE : TemperatureState::UNACCEPTABLE);
-        if (this->getState() == TemperatureState::UNACCEPTABLE){
+        this->setState(this->carWasher->temp < MAXTEMP ? TemperatureState::ACCEPTABLE : TemperatureState::UNACCEPTABLE);
+        if (this->getState() == TemperatureState::UNACCEPTABLE) {
             carWasher->requiringManteinance = true;
         }
     }
+}
+
+float ManageTemperature::calculateAverageTemperature() {
+    float sum = 0.0;
+    for (float temp : temperatureHistory) {
+        sum += temp;
+    }
+    return sum / AVG_VALUES;
 }

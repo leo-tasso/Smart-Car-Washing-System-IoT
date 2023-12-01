@@ -30,5 +30,5 @@ constexpr int ANGLE_CLOSED = 25;
 constexpr int ANGLE_OPENED = 120;
 constexpr unsigned int PERIOD_L2_GATE = 300;
 constexpr unsigned int PERIOD_L2_WASHING = 500;
-
+constexpr unsigned int AVG_VALUES = 10;
 #endif
