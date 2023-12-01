@@ -1,6 +1,25 @@
 \section{Circuit}
+The circuit schematic is as follows:\\
+
+\begin{center}
+\begin{tabular}{ c c }
+TMP_PIN && A1\\
+PIR_PIN && 2\\
+L1_PIN && 7\\
+L2_PIN && 6\\
+L3_PIN && 5\\
+SERVO_PIN && 3\\    
+SONAR_TRIG_PIN && 11\\
+SONAR_ECHO_PIN && 12
+\end{tabular}
+\end{center}
+Since the servo motor might draw more current than the 150mA offered by arduino pins it's advisable to feed the servo with external power.
+All the elements attached to the power line create noise that hinder the analog temperature sensor's readings.\\
+To dampen this effect it is possible to add decoupling capacitors (10-100 uF) to filter a bit those variation.
 \section{Software Architecture}
-\lipsum[1]
+The program is managed by a syncronous scheduler, it is triggered by a timer and launches non cooperative tasks.
+Each task period has been chosen accordingly to its operative requirements, and is a multiple of the base period of the scheduler.
+Some empiric tests have been made to ensure that no overrun happens in any scenario.
 
 \section{FSM diagrams}
 \subsection{General diagram}
