@@ -4,6 +4,11 @@
 
 [Link to diagram](https://lucid.app/lucidchart/5a9f6e87-3f6f-4bd8-887e-7e449b729c18/edit?invitationId=inv_421cef2f-60e6-4f72-8690-d0ec44e2a91e)
 
+To run the rust gui, inside the rust/smart_car_washing_app folder:
+``cargo run -r``
+
+To upload the arduino program you can use platformIo.
+
 We want to realise an embedded system called Smart Car-Washing System. The prototype  is meant to simulate a simple smart system for car washing.
 
 
