@@ -50,8 +50,8 @@ void ManageAccess::tick() {
                 setState(GateState::CLOSING);
             }
             break;
-        case GateState::WAIT_EXIT: // Wait that the car exit also from the check in area.
-            if (!carWasher->carInWashingArea && !carWasher->carInCheckIn) { 
+        case GateState::WAIT_EXIT:  // Wait that the car exit also from the check in area.
+            if (!carWasher->carInWashingArea && !carWasher->carInCheckIn) {
                 this->motor->setPosition(ANGLE_CLOSED);
                 setState(GateState::CLOSING);
             }

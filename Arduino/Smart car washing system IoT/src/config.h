@@ -19,14 +19,14 @@ constexpr int N1 = 1000;             // ms
 constexpr int N2 = 500;              // ms
 constexpr int N3 = 15000;            // ms washing time
 constexpr int N4 = 5000;             // ms max dist
-constexpr int N5 = 5000;             // ms exit time
+constexpr int N5 = 500;             // ms exit time
 constexpr int SLEEP_TIME = 10000;    // ms
 constexpr int transitionTime = 500;  // ms opening/closing time of the gate
 constexpr double minDist = 0.07;     // 100cm = 1m
 constexpr double maxDist = 0.20;     // 300cm = 3m
 constexpr int noObjDetected = -1;
-constexpr int MAXTEMP = 40;
-constexpr int ANGLE_CLOSED = 25;
+constexpr int MAXTEMP = 22;
+constexpr int ANGLE_CLOSED = 27;
 constexpr int ANGLE_OPENED = 120;
 constexpr unsigned int PERIOD_L2_GATE = 300;
 constexpr unsigned int PERIOD_L2_WASHING = 500;

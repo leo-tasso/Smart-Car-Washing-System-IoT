@@ -5,7 +5,7 @@
 #include "config.h"
 #include "sensors/tempSensor36.h"
 
-constexpr float vcc = 5.0;
+constexpr float vcc = 4.8;
 
 ManageTemperature::ManageTemperature(int period,
                                      CarWasher *carWasher,
@@ -14,7 +14,7 @@ ManageTemperature::ManageTemperature(int period,
       temperature(new TempSensor36(pin, vcc)),
       carWasher(carWasher) {
     for (int i = 0; i < 10; i++) {
-        this->temperatureHistory[i] = 0.0;
+        this->temperatureHistory[i] = (float)temperature->getTemperature();
     }
     this->currentIndex = 0;
 }
@@ -28,7 +28,7 @@ void ManageTemperature::tick() {
     if (carWasher->washing) {
         switch (this->getState()) {
             case TemperatureState::ACCEPTABLE:
-                if (this->carWasher->temp < MAXTEMP && this->elapsedTimeInState() >= N5) {
+                if (this->carWasher->temp > MAXTEMP && this->elapsedTimeInState() >= N5) {
                     carWasher->requiringManteinance = true;
                     this->setState(TemperatureState::UNACCEPTABLE);
                 }
