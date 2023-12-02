@@ -34,23 +34,20 @@ void ManageAccess::tick() {
         case GateState::OPENING:
             if (this->elapsedTimeInState() >= transitionTime) {
                 carWasher->gateOpen = true;
-                setState(GateState::OPEN);
+                if (carWasher->carInWashingArea) {
+                    setState(GateState::OPEN_EXIT);
+                } else {
+                    setState(GateState::OPEN_ENTRING);
+                }
             }
             break;
-        case GateState::OPEN:
-            if (carWasher->carInWashingArea) {
-                setState(GateState::WAIT_EXIT);
-            } else {
-                setState(GateState::WAIT_ENTRING);
-            }
-            break;
-        case GateState::WAIT_ENTRING:
+        case GateState::OPEN_ENTRING:
             if (carWasher->carInWashingArea) {
                 this->motor->setPosition(ANGLE_CLOSED);
                 setState(GateState::CLOSING);
             }
             break;
-        case GateState::WAIT_EXIT:  // Wait that the car exit also from the check in area.
+        case GateState::OPEN_EXIT:  // Wait that the car exit also from the check in area.
             if (!carWasher->carInWashingArea && !carWasher->carInCheckIn) {
                 this->motor->setPosition(ANGLE_CLOSED);
                 setState(GateState::CLOSING);
