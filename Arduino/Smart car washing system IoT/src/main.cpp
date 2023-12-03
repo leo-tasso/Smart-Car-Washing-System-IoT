@@ -1,3 +1,9 @@
+/*
+ * ASSIGNMENT #2 - SMART CAR WASHIGN SYSTEM  
+ * 
+ * Authors: L. Tassinari, M. Oliveri
+ * 
+ */
 #include <Arduino.h>
 
 #include "CarWasher.h"
