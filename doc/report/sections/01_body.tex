@@ -21,7 +21,7 @@ The circuit schematic is as follows:\\
         \hline
         Sonar trig         & 11     \\
         \hline
-        Ssonar echo        & 12     \\
+        Sonar echo        & 12     \\
         \hline
     \end{tabular}
 \end{center}
@@ -47,7 +47,7 @@ The work tree of the program is divided in:
 \end{itemize}
 On the root are present:
 \begin{itemize}
-    \item The main file, entry poit of the program, where the scheduler and the tasks are instantiated.
+    \item The main file, entry point of the program, where the scheduler and the tasks are instantiated.
     \item CarWash class, representing the domain of the system with all the shared variables.
     \item Config, configuration file to tune all the parameters of the program.
 \end{itemize}
@@ -103,7 +103,7 @@ This task manages the position of the bar.
 \includegraphics[width=0.8\textwidth]{ManageAccess.pdf}
 \end{figure}
 \subsection{displayFeedback}
-This task displaies the appropriate message on the display.
+This task displays the appropriate message on the display.
 \subsection{communicator}
 This task is responsible of communicating via serial with the dashboard.
 \subsection{sleepTask}
